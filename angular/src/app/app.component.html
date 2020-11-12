@@ -1,0 +1,10 @@
+<div class="h-12">
+  <app-header></app-header>
+</div>
+<div
+  class="overflow-y-auto"
+  style="height: calc(100% - 3rem)"
+  [@routeAnimations]="prepareRoute(outlet)"
+>
+  <router-outlet #outlet="outlet"></router-outlet>
+</div>

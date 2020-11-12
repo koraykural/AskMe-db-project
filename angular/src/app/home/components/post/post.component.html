@@ -1,0 +1,62 @@
+<div
+  class="w-full shadow-sm sm:shadow bg-white rounded-sm sm:rounded my-4 p-4"
+  style="min-height: 16rem"
+>
+  <!-- ----- Top Bar ----- -->
+  <div></div>
+
+  <!-- ----- Question and Voting -------->
+  <div class="flex flex-row items-center w-full">
+    <app-question-text class="flex-grow"></app-question-text>
+    <div class="flex flex-col px-2">
+      <div class="flex flex-col items-center unselectable">
+        <label
+          class="h-6 leading-none text-2xl cursor-pointer transition-colors duration-200"
+          (click)="upVote()"
+          [ngClass]="
+            data.userVote === true
+              ? 'text-green-600 hover:text-green-700 upvote-animation'
+              : 'text-green-300 hover:text-green-400'
+          "
+        >
+          <fa-icon [icon]="'arrow-circle-up'"></fa-icon>
+          <input
+            type="checkbox"
+            [checked]="data.userVote === true"
+            (click)="$event.stopPropagation()"
+            class="hidden"
+          />
+        </label>
+        <span class="text-green-600 font-medium leading-4 cursor-default mt-1"
+          >18</span
+        >
+      </div>
+      <div class="mt-4 flex flex-col items-center">
+        <span class="mb-1 text-red-600 font-medium leading-4 cursor-default"
+          >3</span
+        >
+        <label
+          class="h-6 leading-none text-2xl cursor-pointer transition-colors duration-200"
+          (click)="downVote()"
+          [ngClass]="
+            data.userVote === false
+              ? 'text-red-600 hover:text-red-700 downvote-animation'
+              : 'text-red-300 hover:text-red-400'
+          "
+        >
+          <fa-icon [icon]="'arrow-circle-down'"></fa-icon>
+          <input
+            (click)="$event.stopPropagation()"
+            type="checkbox"
+            [checked]="data.userVote === false"
+            class="hidden"
+          />
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- ----- Answer ----- -->
+
+  <!-- ----- Comments ----- -->
+</div>

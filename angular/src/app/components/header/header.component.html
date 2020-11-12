@@ -1,0 +1,100 @@
+<div class="h-full w-full bg-indigo-700 flex flex-row items-center px-4 sm:px-8 lg:px-16 text-white unselectable">
+  <div>
+    <a class="text-3xl font-semibold" routerLink="/">AskMe</a>
+  </div>
+  <div class="flex-grow"></div>
+  <div class="flex flex-row items-center h-full">
+    <ul class="hidden sm:flex flex-row h-full">
+      <ng-container *ngIf="authService.isAuthenticated | async">
+        <li *ngFor="let link of signedInLinks">
+          <a
+            [routerLink]="link.url"
+            routerLinkActive="font-bold"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="px-4 h-full flex items-center hover:bg-indigo-800 hover:bg-opacity-25"
+          >
+            {{ link.label }}
+          </a>
+        </li>
+        <li>
+          <button
+            class="px-4 h-full hover:bg-indigo-800 hover:bg-opacity-25 focus:outline-black"
+            (click)="authService.logout()"
+          >
+            Logout
+          </button>
+        </li>
+      </ng-container>
+      <ng-container *ngIf="!(authService.isAuthenticated | async)">
+        <li *ngFor="let link of unsignedInLinks">
+          <a
+            [routerLink]="link.url"
+            routerLinkActive="font-bold"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="px-4 h-full flex items-center hover:bg-indigo-800 hover:bg-opacity-25"
+            >{{ link.label }}</a
+          >
+        </li>
+      </ng-container>
+    </ul>
+
+    <button
+      #menuButton
+      (click)="menuOpen = !menuOpen; menuButton.blur()"
+      class="flex items-center sm:hidden focus:bg-indigo-800 hover:bg-indigo-800 hover:bg-opacity-25 h-full px-4 hamburger hamburger--spin"
+      [ngClass]="menuOpen ? 'is-active' : ''"
+      type="button"
+    >
+      <span class="hamburger-box" style="transform: scale(0.8)">
+        <span class="hamburger-inner"></span>
+      </span>
+    </button>
+  </div>
+</div>
+<div
+  class="fixed w-full left-0 bg-indigo-700 text-white sm:hidden z-50 overflow-hidden"
+  [@inOutAnimation]
+  *ngIf="menuOpen"
+  style="top: 3rem"
+>
+  <ul *ngIf="authService.isAuthenticated | async">
+    <li *ngFor="let link of signedInLinks">
+      <a
+        (click)="menuOpen = !menuOpen"
+        [routerLink]="link.url"
+        routerLinkActive="font-bold"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="inline-block w-full py-2 hover:bg-indigo-800 hover:bg-opacity-25 text-center"
+        >{{ link.label }}</a
+      >
+    </li>
+    <li>
+      <button
+        class="w-full py-2 hover:bg-indigo-800 hover:bg-opacity-25 focus:outline-black"
+        (click)="authService.logout(); menuOpen = !menuOpen"
+      >
+        Logout
+      </button>
+    </li>
+  </ul>
+
+  <ul *ngIf="!(authService.isAuthenticated | async)">
+    <li *ngFor="let link of unsignedInLinks">
+      <a
+        (click)="menuOpen = !menuOpen"
+        [routerLink]="link.url"
+        routerLinkActive="font-bold"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="inline-block w-full py-2 hover:bg-indigo-800 hover:bg-opacity-25 text-center"
+        >{{ link.label }}</a
+      >
+    </li>
+  </ul>
+</div>
+<div
+  *ngIf="menuOpen"
+  (click)="menuOpen = !menuOpen"
+  [@dropShadow]
+  class="fixed w-screen h-screen left-0 z-40 bg-black bg-opacity-25 overflow-hidden sm:hidden"
+  style="top: 3rem"
+></div>

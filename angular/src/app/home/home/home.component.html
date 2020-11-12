@@ -1,0 +1,13 @@
+<div class="container">
+  <div class="max-w-xl w-full mx-auto pb-8">
+    <ng-container *ngFor="let question of questions">
+      <app-post [data]="question"></app-post>
+    </ng-container>
+    <ng-container *ngIf="questions.length === 0">
+      <app-post-placeholder></app-post-placeholder>
+      <app-post-placeholder></app-post-placeholder>
+      <app-post-placeholder></app-post-placeholder>
+      <app-post-placeholder></app-post-placeholder>
+    </ng-container>
+  </div>
+</div>

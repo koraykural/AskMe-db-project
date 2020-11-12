@@ -1,0 +1,80 @@
+<div class="h-full w-full flex justify-center items-center container">
+  <form [formGroup]="registerForm" class="bg-white rounded shadow p-8 my-8 w-full max-w-md" (submit)="submit()">
+    <h2 class="text-center text-2xl font-semibold mb-4">Create a new account</h2>
+    <label class="block mb-6">
+      Email
+      <input
+        type="email"
+        placeholder="john@doe.com"
+        formControlName="email"
+        class="block border border-gray-400 rounded-sm w-full transition-shadow duration-300 focus:shadow px-4 py-2"
+      />
+      <ul *ngIf="email.touched" class="text-xs italic text-red-600 font-medium px-4">
+        <li *ngIf="email.hasError('required')">Email field is required.</li>
+        <li *ngIf="email.hasError('email')">Email format is invalid.</li>
+      </ul>
+    </label>
+
+    <label class="block mb-6">
+      Username
+      <input
+        type="text"
+        placeholder="JohnDoe"
+        formControlName="username"
+        class="block border border-gray-400 rounded-sm w-full transition-shadow duration-300 focus:shadow px-4 py-2"
+      />
+      <ul *ngIf="username.touched" class="text-xs italic text-red-600 font-medium px-4">
+        <li *ngIf="username.hasError('required')">Username field is required.</li>
+        <li *ngIf="username.hasError('minlength')">
+          Username field must be at least
+          {{ username.errors.minlength.requiredLength }} characters long.
+        </li>
+        <li *ngIf="username.hasError('maxlength')">
+          Username field must be at most
+          {{ username.errors.maxlength.requiredLength }} characters long.
+        </li>
+      </ul>
+    </label>
+
+    <label class="block mb-6">
+      Password
+      <input
+        type="password"
+        placeholder="**********"
+        formControlName="password"
+        class="block border border-gray-400 rounded-sm w-full transition-shadow duration-300 focus:shadow px-4 py-2"
+      />
+      <ul *ngIf="password.touched" class="text-xs italic text-red-600 font-medium px-4">
+        <li *ngIf="password.hasError('required')">Password field is required.</li>
+        <li *ngIf="password.hasError('minlength')">
+          Password field must be at least
+          {{ password.errors.minlength.requiredLength }} characters long.
+        </li>
+        <li *ngIf="password.hasError('maxlength')">
+          Password field must be at most
+          {{ password.errors.maxlength.requiredLength }} characters long.
+        </li>
+      </ul>
+    </label>
+    <p class="text-sm font-semibold text-red-600 mb-4">{{ apiError }}</p>
+
+    <div class="flex flex-row justify-between items-center">
+      <button
+        type="submit"
+        [disabled]="registerForm.invalid"
+        class="px-6 py-2 text-white font-semibold rounded"
+        [ngClass]="
+          registerForm.invalid
+            ? 'bg-indigo-300 cursor-default'
+            : 'bg-indigo-500 hover:bg-indigo-600 transition-colors duration-300'
+        "
+      >
+        Register
+      </button>
+      <div class="text-right text-sm">
+        <span class="block">Already registered?</span>
+        <a routerLink="/login" class="text-blue-600 hover:text-blue-700 font-semibold">Login</a>
+      </div>
+    </div>
+  </form>
+</div>

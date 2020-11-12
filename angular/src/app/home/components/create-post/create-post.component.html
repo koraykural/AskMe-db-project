@@ -1,0 +1,219 @@
+<div
+  class="h-full w-full flex justify-center items-center container py-1 overflow-y-hidden"
+>
+  <form
+    [formGroup]="questionForm"
+    class="bg-white rounded shadow py-4 px-4 my-4 w-full max-w-xl max-h-full overflow-y-auto"
+    (submit)="submit()"
+  >
+    <div class="px-2 -mx-2 mb-8 border-b border-gray-300">
+      <h2 class="text-2xl font-semibold">Ask a question!</h2>
+    </div>
+
+    <label class="block mb-8">
+      Question
+      <textarea
+        placeholder="What do you want to ask?"
+        formControlName="questionText"
+        class="block border border-gray-400 rounded-sm w-full transition-shadow duration-300 focus:shadow px-4 py-2"
+        rows="3"
+      ></textarea>
+    </label>
+
+    <span class="block mb-2">Answer</span>
+    <div class="mb-4 flex flex-row flex-wrap -mx-2">
+      <label
+        *ngFor="let answerType of answerTypes"
+        class="mx-2 cursor-pointer text-indigo-500"
+      >
+        <input
+          type="radio"
+          class="absolute opacity-0 w-0 h-0"
+          formControlName="answerType"
+          [value]="answerType.value"
+        />
+        <div
+          class="rounded-full border transition-colors duration-300 border-gray-400 p-2 h-12 w-12 flex justify-center items-center"
+          [ngClass]="{
+            'bg-indigo-500 hover:bg-indigo-600 border-indigo-500 text-white':
+              selectedAnswerType === answerType.value,
+            'bg-white hover:bg-indigo-100':
+              selectedAnswerType !== answerType.value
+          }"
+        >
+          <fa-icon
+            class="text-2xl leading-none"
+            [icon]="answerType.icon"
+          ></fa-icon>
+        </div>
+      </label>
+    </div>
+
+    <div class="relative overflow-y-hidden">
+      <label
+        *ngIf="selectedAnswerType === 'text'"
+        [@inOutAnimation]
+        class="block mb-6"
+      >
+        <textarea
+          disabled
+          placeholder="Others will type their answers."
+          class="block resize-none border border-gray-400 rounded-sm w-full transition-shadow duration-300 focus:shadow px-4 py-2"
+          rows="3"
+        ></textarea>
+      </label>
+
+      <div *ngIf="selectedAnswerType !== 'text'" [@inOutAnimation] class="mb-6">
+        <div class="relative mb-2">
+          <input
+            type="text"
+            formControlName="answer1"
+            placeholder="Choice 1"
+            class="block resize-y border border-gray-400 rounded-sm w-full transition-shadow duration-300 focus:shadow pl-4 pr-12 py-2"
+            rows="1"
+          />
+          <label
+            class="absolute h-full top-0 flex flex-col justify-center cursor-pointer"
+            style="right: 0.5rem"
+          >
+            <input
+              type="radio"
+              class="hidden"
+              formControlName="correctAnswer"
+              [value]="1"
+            />
+            <fa-icon
+              class="text-3xl leading-none transition-colors duration-300"
+              [ngClass]="{
+                'text-indigo-500 hover:text-indigo-600': correctAnswer === 1,
+                'text-gray-300 hover:text-gray-400': correctAnswer !== 1
+              }"
+              [icon]="'check-circle'"
+            ></fa-icon>
+          </label>
+        </div>
+        <div class="relative">
+          <input
+            type="text"
+            formControlName="answer2"
+            placeholder="Choice 2"
+            class="block resize-y border border-gray-400 rounded-sm w-full transition-shadow duration-300 focus:shadow pl-4 pr-12 py-2"
+            rows="1"
+          />
+          <label
+            class="absolute h-full top-0 flex flex-col justify-center cursor-pointer"
+            style="right: 0.5rem"
+          >
+            <input
+              type="radio"
+              class="hidden"
+              formControlName="correctAnswer"
+              [value]="2"
+            />
+            <fa-icon
+              class="text-3xl leading-none transition-colors duration-300"
+              [ngClass]="{
+                'text-indigo-500 hover:text-indigo-600': correctAnswer === 2,
+                'text-gray-300 hover:text-gray-400': correctAnswer !== 2
+              }"
+              [icon]="'check-circle'"
+            ></fa-icon>
+          </label>
+        </div>
+        <div
+          *ngIf="selectedAnswerType === 'multi-choice-4'"
+          class="mt-2"
+          [@inOutAnimation]
+        >
+          <div class="relative mb-2">
+            <input
+              type="text"
+              formControlName="answer3"
+              placeholder="Choice 3"
+              class="block resize-y border border-gray-400 rounded-sm w-full transition-shadow duration-300 focus:shadow pl-4 pr-12 py-2"
+              rows="1"
+            />
+            <label
+              class="absolute h-full top-0 flex flex-col justify-center cursor-pointer"
+              style="right: 0.5rem"
+            >
+              <input
+                type="radio"
+                class="hidden"
+                formControlName="correctAnswer"
+                [value]="3"
+              />
+              <fa-icon
+                class="text-3xl leading-none transition-colors duration-300"
+                [ngClass]="{
+                  'text-indigo-500 hover:text-indigo-600': correctAnswer === 3,
+                  'text-gray-300 hover:text-gray-400': correctAnswer !== 3
+                }"
+                [icon]="'check-circle'"
+              ></fa-icon>
+            </label>
+          </div>
+          <div class="relative">
+            <input
+              type="text"
+              formControlName="answer4"
+              placeholder="Choice 4"
+              class="block resize-y border border-gray-400 rounded-sm w-full transition-shadow duration-300 focus:shadow pl-4 pr-12 py-2"
+              rows="1"
+            />
+            <label
+              class="absolute h-full top-0 flex flex-col justify-center cursor-pointer"
+              style="right: 0.5rem"
+            >
+              <input
+                type="radio"
+                class="hidden"
+                formControlName="correctAnswer"
+                [value]="4"
+              />
+              <fa-icon
+                class="text-3xl leading-none transition-colors duration-300"
+                [ngClass]="{
+                  'text-indigo-500 hover:text-indigo-600': correctAnswer === 4,
+                  'text-gray-300 hover:text-gray-400': correctAnswer !== 4
+                }"
+                [icon]="'check-circle'"
+              ></fa-icon>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <label
+      class="block mb-6 cursor-pointer unselectable"
+      style="width: fit-content"
+    >
+      <input
+        type="checkbox"
+        formControlName="anonymous"
+        class="form-checkbox h-6 w-6 mr-1 transition-colors duration-300"
+        (change)="$event.target.blur()"
+      />
+      Ask anonymously
+    </label>
+
+    <div class="flex justify-center">
+      <button
+        type="submit"
+        [disabled]="questionForm.invalid"
+        class="px-6 py-2 text-white font-semibold rounded"
+        [ngClass]="
+          questionForm.invalid
+            ? 'bg-indigo-300 cursor-default'
+            : 'bg-indigo-500 hover:bg-indigo-600 transition-colors duration-300'
+        "
+      >
+        Publish and Pay {{ cost }} AskPoints
+      </button>
+    </div>
+    <!-- <div class="w-full mt-4">
+      {{ questionForm.errors | json }}
+    </div> -->
+  </form>
+</div>

@@ -1,0 +1,144 @@
+@import "hamburgers/dist/hamburgers.min.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  font-family: "Quicksand", sans-serif;
+  @apply bg-gray-300 text-gray-700 h-full;
+}
+
+button:focus,
+textarea:focus,
+input:focus {
+  outline: none;
+}
+
+.form-checkbox,
+.form-radio {
+  @apply text-indigo-500 border border-gray-400 cursor-pointer;
+}
+.form-checkbox:focus,
+.form-radio:focus {
+  @apply shadow-sm;
+}
+
+.hamburger-inner,
+.hamburger-inner:after,
+.hamburger-inner:before {
+  background-color: white !important;
+}
+.hamburger.is-active:hover,
+.hamburger:hover {
+  opacity: 1 !important;
+}
+
+.unselectable {
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.upvote-animation {
+  animation: upvote-animation 0.8s cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
+  -webkit-animation: upvote-animation 0.8s
+    cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
+}
+
+@-webkit-keyframes upvote-animation {
+  0% {
+    -webkit-transform: rotateY(0);
+    transform: rotateY(0);
+  }
+  60% {
+    -webkit-transform: rotateY(360deg);
+    transform: rotateY(360deg);
+  }
+  80% {
+    -webkit-transform: translateY(-16px);
+    transform: translateY(-16px);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+@keyframes upvote-animation {
+  0% {
+    -webkit-transform: rotateY(0);
+    transform: rotateY(0);
+  }
+  60% {
+    -webkit-transform: rotateY(360deg);
+    transform: rotateY(360deg);
+  }
+  80% {
+    -webkit-transform: translateY(-16px);
+    transform: translateY(-16px);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+
+.downvote-animation {
+  -webkit-animation: downvote-animation 0.8s ease-in-out both;
+  animation: downvote-animation 0.8s ease-in-out both;
+}
+
+@-webkit-keyframes downvote-animation {
+  0% {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+    -webkit-transform-origin: 0% 100%;
+    transform-origin: 0% 100%;
+  }
+  20% {
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    -webkit-transform-origin: -25% 75%;
+    transform-origin: -25% 75%;
+  }
+  80% {
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    -webkit-transform-origin: -25% 75%;
+    transform-origin: -25% 75%;
+  }
+  100% {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+    -webkit-transform-origin: 0% 100%;
+    transform-origin: 0% 100%;
+  }
+}
+@keyframes downvote-animation {
+  0% {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+    -webkit-transform-origin: 0% 100%;
+    transform-origin: 0% 100%;
+  }
+  20% {
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    -webkit-transform-origin: -25% 75%;
+    transform-origin: -25% 75%;
+  }
+  80% {
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    -webkit-transform-origin: -25% 75%;
+    transform-origin: -25% 75%;
+  }
+  100% {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+    -webkit-transform-origin: 0% 100%;
+    transform-origin: 0% 100%;
+  }
+}
