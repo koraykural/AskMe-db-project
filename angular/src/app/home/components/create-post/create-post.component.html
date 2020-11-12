@@ -1,9 +1,7 @@
-<div
-  class="h-full w-full flex justify-center items-center container py-1 overflow-y-hidden"
->
+<div class="h-full w-full flex justify-center items-center sm:container sm:py-1 overflow-y-hidden">
   <form
     [formGroup]="questionForm"
-    class="bg-white rounded shadow py-4 px-4 my-4 w-full max-w-xl max-h-full overflow-y-auto"
+    class="bg-white sm:rounded sm:shadow py-4 px-4 my-4 w-full max-w-xl max-h-full overflow-y-auto"
     (submit)="submit()"
   >
     <div class="px-2 -mx-2 mb-8 border-b border-gray-300">
@@ -22,10 +20,7 @@
 
     <span class="block mb-2">Answer</span>
     <div class="mb-4 flex flex-row flex-wrap -mx-2">
-      <label
-        *ngFor="let answerType of answerTypes"
-        class="mx-2 cursor-pointer text-indigo-500"
-      >
+      <label *ngFor="let answerType of answerTypes" class="mx-2 cursor-pointer text-indigo-500">
         <input
           type="radio"
           class="absolute opacity-0 w-0 h-0"
@@ -35,26 +30,17 @@
         <div
           class="rounded-full border transition-colors duration-300 border-gray-400 p-2 h-12 w-12 flex justify-center items-center"
           [ngClass]="{
-            'bg-indigo-500 hover:bg-indigo-600 border-indigo-500 text-white':
-              selectedAnswerType === answerType.value,
-            'bg-white hover:bg-indigo-100':
-              selectedAnswerType !== answerType.value
+            'bg-indigo-500 hover:bg-indigo-600 border-indigo-500 text-white': selectedAnswerType === answerType.value,
+            'bg-white hover:bg-indigo-100': selectedAnswerType !== answerType.value
           }"
         >
-          <fa-icon
-            class="text-2xl leading-none"
-            [icon]="answerType.icon"
-          ></fa-icon>
+          <fa-icon class="text-2xl leading-none" [icon]="answerType.icon"></fa-icon>
         </div>
       </label>
     </div>
 
     <div class="relative overflow-y-hidden">
-      <label
-        *ngIf="selectedAnswerType === 'text'"
-        [@inOutAnimation]
-        class="block mb-6"
-      >
+      <label *ngIf="selectedAnswerType === 'text'" [@inOutAnimation] class="block mb-6">
         <textarea
           disabled
           placeholder="Others will type their answers."
@@ -72,16 +58,8 @@
             class="block resize-y border border-gray-400 rounded-sm w-full transition-shadow duration-300 focus:shadow pl-4 pr-12 py-2"
             rows="1"
           />
-          <label
-            class="absolute h-full top-0 flex flex-col justify-center cursor-pointer"
-            style="right: 0.5rem"
-          >
-            <input
-              type="radio"
-              class="hidden"
-              formControlName="correctAnswer"
-              [value]="1"
-            />
+          <label class="absolute h-full top-0 flex flex-col justify-center cursor-pointer" style="right: 0.5rem">
+            <input type="radio" class="hidden" formControlName="correctAnswer" [value]="1" />
             <fa-icon
               class="text-3xl leading-none transition-colors duration-300"
               [ngClass]="{
@@ -100,16 +78,8 @@
             class="block resize-y border border-gray-400 rounded-sm w-full transition-shadow duration-300 focus:shadow pl-4 pr-12 py-2"
             rows="1"
           />
-          <label
-            class="absolute h-full top-0 flex flex-col justify-center cursor-pointer"
-            style="right: 0.5rem"
-          >
-            <input
-              type="radio"
-              class="hidden"
-              formControlName="correctAnswer"
-              [value]="2"
-            />
+          <label class="absolute h-full top-0 flex flex-col justify-center cursor-pointer" style="right: 0.5rem">
+            <input type="radio" class="hidden" formControlName="correctAnswer" [value]="2" />
             <fa-icon
               class="text-3xl leading-none transition-colors duration-300"
               [ngClass]="{
@@ -120,11 +90,7 @@
             ></fa-icon>
           </label>
         </div>
-        <div
-          *ngIf="selectedAnswerType === 'multi-choice-4'"
-          class="mt-2"
-          [@inOutAnimation]
-        >
+        <div *ngIf="selectedAnswerType === 'multi-choice-4'" class="mt-2" [@inOutAnimation]>
           <div class="relative mb-2">
             <input
               type="text"
@@ -133,16 +99,8 @@
               class="block resize-y border border-gray-400 rounded-sm w-full transition-shadow duration-300 focus:shadow pl-4 pr-12 py-2"
               rows="1"
             />
-            <label
-              class="absolute h-full top-0 flex flex-col justify-center cursor-pointer"
-              style="right: 0.5rem"
-            >
-              <input
-                type="radio"
-                class="hidden"
-                formControlName="correctAnswer"
-                [value]="3"
-              />
+            <label class="absolute h-full top-0 flex flex-col justify-center cursor-pointer" style="right: 0.5rem">
+              <input type="radio" class="hidden" formControlName="correctAnswer" [value]="3" />
               <fa-icon
                 class="text-3xl leading-none transition-colors duration-300"
                 [ngClass]="{
@@ -161,16 +119,8 @@
               class="block resize-y border border-gray-400 rounded-sm w-full transition-shadow duration-300 focus:shadow pl-4 pr-12 py-2"
               rows="1"
             />
-            <label
-              class="absolute h-full top-0 flex flex-col justify-center cursor-pointer"
-              style="right: 0.5rem"
-            >
-              <input
-                type="radio"
-                class="hidden"
-                formControlName="correctAnswer"
-                [value]="4"
-              />
+            <label class="absolute h-full top-0 flex flex-col justify-center cursor-pointer" style="right: 0.5rem">
+              <input type="radio" class="hidden" formControlName="correctAnswer" [value]="4" />
               <fa-icon
                 class="text-3xl leading-none transition-colors duration-300"
                 [ngClass]="{
@@ -185,10 +135,7 @@
       </div>
     </div>
 
-    <label
-      class="block mb-6 cursor-pointer unselectable"
-      style="width: fit-content"
-    >
+    <label class="block mb-6 cursor-pointer unselectable" style="width: fit-content">
       <input
         type="checkbox"
         formControlName="anonymous"

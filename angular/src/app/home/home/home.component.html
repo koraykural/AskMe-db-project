@@ -1,9 +1,9 @@
-<div class="container">
+<div class="sm:container">
   <div class="max-w-xl w-full mx-auto pb-8">
-    <ng-container *ngFor="let question of questions">
+    <ng-container *ngFor="let question of questionService.questions">
       <app-post [data]="question"></app-post>
     </ng-container>
-    <ng-container *ngIf="questions.length === 0">
+    <ng-container *ngIf="questionService.questions.length === 0">
       <app-post-placeholder></app-post-placeholder>
       <app-post-placeholder></app-post-placeholder>
       <app-post-placeholder></app-post-placeholder>

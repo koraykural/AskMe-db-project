@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PostData } from '../components/post/post.component';
+import { QuestionService } from '../services/question.service';
 
 @Component({
   selector: 'app-home',
@@ -7,66 +7,9 @@ import { PostData } from '../components/post/post.component';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit {
-  constructor() {}
+  constructor(public questionService: QuestionService) {}
 
-  questions: PostData[] = [
-    // {
-    //   ownerUsername: "koray",
-    //   userVote: null,
-    //   upCount: 18,
-    //   downCount: 3,
-    //   question: "Simple question text?",
-    // },
-    // {
-    //   ownerUsername: "koray",
-    //   userVote: null,
-    //   upCount: 18,
-    //   downCount: 3,
-    //   question: "Simple question text?",
-    // },
-    // {
-    //   ownerUsername: "koray",
-    //   userVote: null,
-    //   upCount: 18,
-    //   downCount: 3,
-    //   question: "Simple question text?",
-    // },
-    // {
-    //   ownerUsername: "koray",
-    //   userVote: null,
-    //   upCount: 18,
-    //   downCount: 3,
-    //   question: "Simple question text?",
-    // },
-    // {
-    //   ownerUsername: "koray",
-    //   userVote: null,
-    //   upCount: 18,
-    //   downCount: 3,
-    //   question: "Simple question text?",
-    // },
-    // {
-    //   ownerUsername: "koray",
-    //   userVote: null,
-    //   upCount: 18,
-    //   downCount: 3,
-    //   question: "Simple question text?",
-    // },
-    // {
-    //   ownerUsername: "koray",
-    //   userVote: null,
-    //   upCount: 18,
-    //   downCount: 3,
-    //   question: "Simple question text?",
-    // },
-    // {
-    //   ownerUsername: "koray",
-    //   userVote: null,
-    //   upCount: 18,
-    //   downCount: 3,
-    //   question: "Simple question text?",
-    // },
-  ];
-
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.questionService.getAllQuestions();
+  }
 }

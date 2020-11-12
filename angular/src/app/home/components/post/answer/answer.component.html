@@ -1,0 +1,11 @@
+<div class="mt-2">
+  <ng-container *ngIf="data.answerType === 'text'">
+    <app-answer-text [data]="data"></app-answer-text>
+  </ng-container>
+  <ng-container *ngIf="data.answerType === 'multi-choice-2'">
+    <app-answer-multi-two [data]="data"></app-answer-multi-two>
+  </ng-container>
+  <ng-container *ngIf="data.answerType === 'multi-choice-4'">
+    <app-answer-multi-four [data]="data"></app-answer-multi-four>
+  </ng-container>
+</div>

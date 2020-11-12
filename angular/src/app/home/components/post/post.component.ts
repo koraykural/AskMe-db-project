@@ -1,12 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
-
-export interface PostData {
-  ownerUsername: string;
-  question: string;
-  upCount: number;
-  downCount: number;
-  userVote: boolean | null;
-}
+import { QuestionData } from 'src/app/interfaces';
 
 @Component({
   selector: 'app-post',
@@ -14,7 +7,7 @@ export interface PostData {
   styleUrls: ['./post.component.css'],
 })
 export class PostComponent implements OnInit {
-  @Input() data: PostData;
+  @Input() data: QuestionData;
 
   constructor(private cd: ChangeDetectorRef) {}
 

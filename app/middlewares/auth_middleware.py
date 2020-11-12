@@ -5,6 +5,7 @@ from flask import request, g
 import jwt
 from functools import wraps
 from . import AuthorizationError
+from app.database import user_db
 
 
 def auth_required():
@@ -24,7 +25,11 @@ def auth_required():
                 token = auth_header_list[1]
                 secret = "as'^&sdffsd24552DFS234fs"
                 payload = jwt.decode(token, secret, algorithms=['HS256'])
-                g.id = payload.get('id')
+                user_id = payload.get('id')
+                user = user_db.find_by_id(user_id)
+                if user is None:
+                    raise AuthorizationError(token_invalid=True)
+                g.user = user
             except jwt.ExpiredSignatureError:
                 raise AuthorizationError(token_expired=True)
             except AuthorizationError:

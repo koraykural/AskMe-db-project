@@ -18,6 +18,7 @@ def create_app():
 
 def register_extensions(app):
     from .exts import bcrypt
+
     bcrypt.init_app(app)
     return None
 
@@ -25,6 +26,7 @@ def register_extensions(app):
 def register_error_handlers(app):
     from app.validators import ValidationError
     from app.middlewares import AuthorizationError, api_error
+
     app.register_error_handler(
         AuthorizationError, lambda e: api_error(e.message))
     app.register_error_handler(
@@ -33,8 +35,11 @@ def register_error_handlers(app):
 
 
 def register_blueprints(app):
-    from app.routes.auth import auth_blueprint
+    from app.routes.auth_route import auth_blueprint
+    from app.routes.question_route import question_blueprint
+
     app.register_blueprint(auth_blueprint, url_prefix='/api/auth')
+    app.register_blueprint(question_blueprint, url_prefix='/api/question')
 
     return None
 

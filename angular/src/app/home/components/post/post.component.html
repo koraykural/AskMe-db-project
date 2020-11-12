@@ -1,13 +1,10 @@
-<div
-  class="w-full shadow-sm sm:shadow bg-white rounded-sm sm:rounded my-4 p-4"
-  style="min-height: 16rem"
->
+<div class="w-full sm:shadow bg-white sm:rounded my-4 p-4" style="min-height: 16rem">
   <!-- ----- Top Bar ----- -->
   <div></div>
 
   <!-- ----- Question and Voting -------->
   <div class="flex flex-row items-center w-full">
-    <app-question-text class="flex-grow"></app-question-text>
+    <app-question [data]="data" class="flex-grow"></app-question>
     <div class="flex flex-col px-2">
       <div class="flex flex-col items-center unselectable">
         <label
@@ -20,21 +17,12 @@
           "
         >
           <fa-icon [icon]="'arrow-circle-up'"></fa-icon>
-          <input
-            type="checkbox"
-            [checked]="data.userVote === true"
-            (click)="$event.stopPropagation()"
-            class="hidden"
-          />
+          <input type="checkbox" [checked]="data.userVote === true" (click)="$event.stopPropagation()" class="hidden" />
         </label>
-        <span class="text-green-600 font-medium leading-4 cursor-default mt-1"
-          >18</span
-        >
+        <span class="text-green-600 font-medium leading-4 cursor-default mt-1"> {{ data.upvoteCount }} </span>
       </div>
       <div class="mt-4 flex flex-col items-center">
-        <span class="mb-1 text-red-600 font-medium leading-4 cursor-default"
-          >3</span
-        >
+        <span class="mb-1 text-red-600 font-medium leading-4 cursor-default"> {{ data.downvoteCount }} </span>
         <label
           class="h-6 leading-none text-2xl cursor-pointer transition-colors duration-200"
           (click)="downVote()"
@@ -57,6 +45,7 @@
   </div>
 
   <!-- ----- Answer ----- -->
+  <app-answer [data]="data"></app-answer>
 
   <!-- ----- Comments ----- -->
 </div>

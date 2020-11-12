@@ -1,5 +1,5 @@
 """
-This file containst login form validator class.
+This file contains login and register form validator functions.
 """
 from . import ValidationError
 

@@ -76,6 +76,8 @@ export class AuthService {
     const remainingTime = expDate.getTime() - Date.now();
     const fiveMins = 5 * 60 * 1000;
 
+    console.log(`Authentication token expires in ${Math.ceil(remainingTime / (1000 * 60))} minutes.`);
+
     if (remainingTime < fiveMins) {
       this.renewToken().subscribe(
         (res) => {

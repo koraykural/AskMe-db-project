@@ -58,3 +58,12 @@ def find_by_email(email):
 def find_by_id(id):
     user = ids.get(id, None)
     return user
+
+
+# def get_askpoints(id):
+#     user = find_by_id(id)
+
+#     if user is None:
+#         raise Exception("User not found")
+
+#     return user.askpoints
