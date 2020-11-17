@@ -47,7 +47,6 @@ def login():
     user = find_by_email(email)
 
     if user is None:
-        # jsonify({'status': 'Error', 'message': "User not found."})
         return api_error("User not found.")
 
     if not bcrypt.check_password_hash(user.password, password):
@@ -82,7 +81,7 @@ def register():
     if not is_username_unique(username):
         return api_error("Username is in use.")
 
-    pw_hash = bcrypt.generate_password_hash(password)
+    pw_hash = bcrypt.generate_password_hash(password).decode('utf-8')
 
     user = User(email, username, pw_hash)
     user.save()
@@ -118,8 +117,8 @@ def renew():
     Returns:
     str:access_token that user can utilize to authenticate
     """
-    user_id = g.get('id', None)
-    if user_id is None:
+    user = g.get('user', None)
+    if user is None:
         raise AuthorizationError(token_missing=True)
 
     jwt_token = create_token(user_id)

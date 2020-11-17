@@ -1,1 +1,24 @@
-<p>answer-text works!</p>
+<form [formGroup]="answerForm" class="relative w-full mt-4 mb-1" (submit)="submit()">
+  <textarea
+    (keydown.enter)="submit()"
+    formControlName="answer"
+    placeholder="Your answer..."
+    class="block border border-gray-400 rounded w-full pl-4 pr-12 py-2 resize-none"
+    [ngClass]="{
+      'transition-shadow duration-300 focus:shadow': buttonState === 'ready'
+    }"
+    rows="1"
+    autosize
+  ></textarea>
+  <button
+    type="submit"
+    class="absolute h-full right-0 top-0 p-2 bg-green-500 text-white rounded-r"
+    [disabled]="buttonState !== 'ready'"
+    [ngClass]="{
+      ' hover:bg-green-600 transition-colors duration-300': buttonState === 'ready',
+      'cursor-default': buttonState !== 'ready'
+    }"
+  >
+    <fa-icon [icon]="icons[buttonState]" class="leading-none mx-1"></fa-icon>
+  </button>
+</form>

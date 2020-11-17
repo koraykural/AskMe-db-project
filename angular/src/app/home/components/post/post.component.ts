@@ -20,4 +20,11 @@ export class PostComponent implements OnInit {
   downVote() {
     this.data.userVote = this.data.userVote === false ? null : false;
   }
+
+  relativeDate(d: Date) {
+    const date = new Date(d);
+    const offset = date.getTimezoneOffset();
+    const rDate = new Date(date.getTime() + offset * 60 * 1000);
+    return rDate;
+  }
 }

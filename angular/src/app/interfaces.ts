@@ -20,4 +20,5 @@ export interface QuestionData {
   upvoteCount: number;
   downvoteCount: number;
   userVote: boolean | null;
+  createdAt: Date;
 }

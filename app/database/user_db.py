@@ -4,66 +4,80 @@ This file contains User class.
 User class has database operation methods.
 """
 from uuid import uuid4 as uuid
+import psycopg2 as dbapi2
+
+dsn = "postgres://postgres:123456@localhost:5433/askme"
 
 
 class User:
-    def __init__(self, email, username, pw_hash):
-        self.id = str(uuid())
+    def __init__(self, email, username, pw_hash, id=str(uuid()), askpoints=10):
+        self.id = id
         self.email = email
         self.username = username
         self.password = pw_hash
-        self.askpoints = 10
+        self.askpoints = askpoints
 
     def __str__(self):
         return 'User(id="%s",email="%s",username="%s")' \
             % (self.id, self.email, self.username)
 
     def save(self):
-        users.append(self)
-        emails[self.email] = self
-        usernames[self.username] = self
-        ids[self.id] = self
+        with dbapi2.connect(dsn) as con:
+            with con.cursor() as cur:
+                statement = """INSERT INTO users (id, email, username,
+            password, askpoints) VALUES (%s, %s,%s,%s,%s)"""
+                cur.execute(statement,
+                            (self.id, self.email, self.username,
+                             self.password, self.askpoints,))
+                con.commit()
         return None
 
 
-# Temporary in-memory database
-users = []
-emails = {u.email: u for u in users}
-usernames = {u.username: u for u in users}
-ids = {u.id: u for u in users}
-
-
 def is_email_unique(email):
-    print(emails)
-    user = emails.get(email, None)
-    if user is None:
+    with dbapi2.connect(dsn) as con:
+        with con.cursor() as cur:
+            statement = "SELECT 1 FROM users WHERE email = %s LIMIT 1"
+            cur.execute(statement, (email,))
+            row = cur.fetchone()
+    if row is None:
         return True
     else:
         return False
 
 
 def is_username_unique(username):
-    user = usernames.get(username, None)
-    if user is None:
-        return True
-    else:
-        return False
+    with dbapi2.connect(dsn) as con:
+        with con.cursor() as cur:
+            statement = "SELECT 1 FROM users WHERE username = %s LIMIT 1"
+            cur.execute(statement, (username,))
+            row = cur.fetchone()
+            if row is None:
+                return True
+            else:
+                return False
 
 
 def find_by_email(email):
-    user = emails.get(email, None)
-    return user
+    with dbapi2.connect(dsn) as con:
+        with con.cursor() as cur:
+            statement = "SELECT * FROM users WHERE email = %s LIMIT 1"
+            cur.execute(statement, (email,))
+            row = cur.fetchone()
+            if row is None:
+                return None
+            else:
+                return User(row[1], row[2], row[3],
+                            id=row[0], askpoints=row[4])
 
 
 def find_by_id(id):
-    user = ids.get(id, None)
-    return user
-
-
-# def get_askpoints(id):
-#     user = find_by_id(id)
-
-#     if user is None:
-#         raise Exception("User not found")
-
-#     return user.askpoints
+    with dbapi2.connect(dsn) as con:
+        with con.cursor() as cur:
+            statement = "SELECT * FROM users WHERE id = %s LIMIT 1"
+            cur.execute(statement, (id,))
+            row = cur.fetchone()
+            if row is None:
+                return None
+            else:
+                return User(row[1], row[2], row[3],
+                            id=row[0], askpoints=row[4])

@@ -35,7 +35,7 @@ def create():
     body = request.get_json()
     user = g.get('user')
 
-    question = Question(body, user.id)
+    question = Question(f=body, owner_id=user.id)
     question.save()
 
     return jsonify({'status': 'Success'})
@@ -51,4 +51,4 @@ def all_questions():
     obj: All questions.
     """
 
-    return jsonify(questions=[e.serialize() for e in get_all_question()])
+    return jsonify(questions=get_all_question())
