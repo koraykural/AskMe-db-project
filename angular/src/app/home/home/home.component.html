@@ -9,5 +9,33 @@
       <app-post-placeholder></app-post-placeholder>
       <app-post-placeholder></app-post-placeholder>
     </ng-container>
+
+    <!-- --------------------- Infinite Scroll End Buttons --------------------- -->
+    <ng-container *ngIf="questionService.noQuestionLeft">
+      <div class="flex flex-col items-center mx-auto">
+        <p class="text-center mt-4 mb-2">No question found</p>
+        <button
+          (click)="questionService.getQuestionPack()"
+          class="px-6 py-2 bg-indigo-500 text-white hover:bg-indigo-600 font-semibold rounded shadow-sm"
+        >
+          Try Again
+        </button>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="questionService.requestMade | async">
+      <div class="block text-center">
+        <fa-icon class="text-4xl text-indigo-500" [icon]="'spinner'" [spin]="true"></fa-icon>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="!(questionService.requestMade | async) && !questionService.noQuestionLeft">
+      <div class="flex flex-col items-center mx-auto">
+        <button
+          (click)="questionService.getQuestionPack()"
+          class="px-6 py-2 bg-indigo-500 text-white hover:bg-indigo-600 font-semibold rounded shadow-sm"
+        >
+          Get More Questions
+        </button>
+      </div>
+    </ng-container>
   </div>
 </div>

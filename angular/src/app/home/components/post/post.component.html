@@ -46,8 +46,13 @@
 
   <!-- ----- Bottom Bar ----- -->
   <div class="flex flex-row items-center mt-4">
-    <div>Owner name</div>
+    <ng-container *ngIf="data.ownername">
+      <div>{{ data.ownername }}</div>
+    </ng-container>
+    <ng-container *ngIf="!data.ownername">
+      <div class="italic text-gray-600">-Anonymous-</div>
+    </ng-container>
     <div class="flex-grow"></div>
-    <div class="text-sm text-gray-600 self-end">{{ relativeDate(data.createdAt) | timeago }}</div>
+    <div class="text-sm text-gray-600 self-end font-normal">{{ data.createdAt | timeago }}</div>
   </div>
 </div>

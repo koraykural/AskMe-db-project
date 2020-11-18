@@ -14,7 +14,7 @@ with dbapi2.connect(dsn) as con:
             DEFAULT uuid_generate_v4(),
             "email" text UNIQUE NOT NULL, "username" text UNIQUE NOT NULL,
             "password" BYTEA NOT NULL, "askpoints" int DEFAULT 0,
-            "registered_at" timestamp DEFAULT (now()));"""
+            "registered_at" timestamp DEFAULT (now() AT TIME ZONE 'utc'));"""
         )
         # cur.execute("CREATE TYPE question_type AS ENUM('text')")
         # cur.execute("CREATE TYPE answer_type AS ENUM('text', \
@@ -26,7 +26,7 @@ with dbapi2.connect(dsn) as con:
             text, "answer2" text, "answer3" text, "answer4" text,
             "correct_answer" int2, "upvote_count" int DEFAULT 0,
             "downvote_count" int DEFAULT 0,
-            "created_at" timestamp DEFAULT (now()));""")
+            "created_at" timestamp DEFAULT (now() AT TIME ZONE 'utc'));""")
         cur.execute("""ALTER TABLE "questions" ADD FOREIGN KEY ("owner_id")
             REFERENCES "users" ("id");
         """)

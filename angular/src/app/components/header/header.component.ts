@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/auth/auth.service';
 import { trigger, style, animate, transition } from '@angular/animations';
+import { UserData, UserService } from 'src/app/home/services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -23,11 +24,9 @@ import { trigger, style, animate, transition } from '@angular/animations';
   ],
 })
 export class HeaderComponent implements OnInit {
-  constructor(public authService: AuthService) {}
+  constructor(public authService: AuthService, public userService: UserService) {}
 
   menuOpen = false;
-
-  ngOnInit(): void {}
 
   signedInLinks = [
     {
@@ -58,4 +57,6 @@ export class HeaderComponent implements OnInit {
       url: '/about',
     },
   ];
+
+  ngOnInit(): void {}
 }

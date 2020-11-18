@@ -5,6 +5,7 @@
   class="overflow-y-auto"
   style="height: calc(100% - 3rem)"
   [@routeAnimations]="prepareRoute(outlet)"
+  (scroll)="onScroll($event)"
 >
   <router-outlet #outlet="outlet"></router-outlet>
 </div>

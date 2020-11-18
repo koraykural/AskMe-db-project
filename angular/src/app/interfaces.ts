@@ -10,6 +10,7 @@ export interface ApiResponse {
 export interface QuestionData {
   anonymous: boolean;
   owner: string;
+  ownername: string;
   questionType: string;
   questionText: string;
   answerType: string;
@@ -21,4 +22,22 @@ export interface QuestionData {
   downvoteCount: number;
   userVote: boolean | null;
   createdAt: Date;
+}
+
+export interface QuestionForm {
+  anonymous: boolean;
+  questionType: string;
+  questionText: string;
+  answerType: string;
+  answer1?: string;
+  answer2?: string;
+  answer3?: string;
+  answer4?: string;
+  correctAnswer?: number;
+}
+
+export enum AnswerTypes {
+  'text' = 'text',
+  'multi-choice-2' = 'multi-choice-2',
+  'multi-choice-4' = 'multi-choice-4',
 }

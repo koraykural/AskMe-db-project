@@ -10,12 +10,14 @@ dsn = "postgres://postgres:123456@localhost:5433/askme"
 
 
 class User:
-    def __init__(self, email, username, pw_hash, id=str(uuid()), askpoints=10):
+    def __init__(self, email=None, username=None, pw_hash=None,
+                 id=str(uuid()), askpoints=10, registered_at=None):
         self.id = id
         self.email = email
         self.username = username
         self.password = pw_hash
         self.askpoints = askpoints
+        self.registered_at = registered_at
 
     def __str__(self):
         return 'User(id="%s",email="%s",username="%s")' \
@@ -31,6 +33,16 @@ class User:
                              self.password, self.askpoints,))
                 con.commit()
         return None
+
+    def serialize(self):
+        dic = {
+            'id': self.id,
+            'email': self.email,
+            'username': self.username,
+            'askpoints': self.askpoints,
+            'registered_at': self.registered_at
+        }
+        return dic
 
 
 def is_email_unique(email):
@@ -66,8 +78,8 @@ def find_by_email(email):
             if row is None:
                 return None
             else:
-                return User(row[1], row[2], row[3],
-                            id=row[0], askpoints=row[4])
+                return User(email=row[1], username=row[2], pw_hash=row[3],
+                            id=row[0], askpoints=row[4], registered_at=row[5])
 
 
 def find_by_id(id):
@@ -79,5 +91,5 @@ def find_by_id(id):
             if row is None:
                 return None
             else:
-                return User(row[1], row[2], row[3],
-                            id=row[0], askpoints=row[4])
+                return User(email=row[1], username=row[2], pw_hash=row[3],
+                            id=row[0], askpoints=row[4], registered_at=row[5])

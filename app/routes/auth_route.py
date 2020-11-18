@@ -83,7 +83,7 @@ def register():
 
     pw_hash = bcrypt.generate_password_hash(password).decode('utf-8')
 
-    user = User(email, username, pw_hash)
+    user = User(email=email, username=username, pw_hash=pw_hash)
     user.save()
 
     jwt_token = create_token(user.id)
@@ -121,7 +121,7 @@ def renew():
     if user is None:
         raise AuthorizationError(token_missing=True)
 
-    jwt_token = create_token(user_id)
+    jwt_token = create_token(user.id)
     return jsonify({'access_token': jwt_token})
 
 

@@ -1,152 +1,69 @@
 import { Injectable } from '@angular/core';
-import { FormControl, ValidationErrors, FormGroup } from '@angular/forms';
-import { environment } from 'src/environments/environment';
-import { UserService } from './user.service';
-import { Observable } from 'rxjs';
+import { FormGroup } from '@angular/forms';
+import { Observable, BehaviorSubject, Observer } from 'rxjs';
 import { ApiService } from './api.service';
 import { QuestionData } from 'src/app/interfaces';
-
-export interface QuestionForm {
-  anonymous: boolean;
-  questionType: string;
-  questionText: string;
-  answerType: string;
-  answer1?: string;
-  answer2?: string;
-  answer3?: string;
-  answer4?: string;
-  correctAnswer?: number;
-}
-
-export enum AnswerTypes {
-  'text' = 'text',
-  'multi-choice-2' = 'multi-choice-2',
-  'multi-choice-4' = 'multi-choice-4',
-}
+import { QuestionFormUtils } from '../utils/question-form-utils';
 
 @Injectable({
   providedIn: 'root',
 })
 export class QuestionService {
+  requestMade = new BehaviorSubject(false);
+  noQuestionLeft = false;
   questions: QuestionData[] = [];
 
-  constructor(private userService: UserService, private apiService: ApiService) {}
-
-  questionFormValidator(f: FormControl): ValidationErrors {
-    const errors: ValidationErrors = {};
-
-    const anonymousQuestionCost = environment.anonymousQuestionCost;
-    const questionCost = environment.questionCost;
-    const values: QuestionForm = f.value;
-
-    const { anonymous, questionText, answerType, answer1, answer2, answer3, answer4, correctAnswer } = values;
-
-    const cost = anonymous ? anonymousQuestionCost : questionCost;
-
-    if (cost > this.userService.askpoints) {
-      errors['cost'] = true;
-    }
-
-    const questionLength = questionText.trim().length;
-    if (questionLength < 5 || questionLength > 220) {
-      errors['questionText'] = true;
-    }
-
-    if (answerType === AnswerTypes['multi-choice-2']) {
-      if (![1, 2].includes(correctAnswer)) {
-        errors['correctAnswer'] = true;
+  questionRequestHandler: Observer<{ questions: QuestionData[] }> = {
+    next: (res) => {
+      console.log(res);
+      this.questions = this.questions.concat(res.questions);
+      this.requestMade.next(false);
+      if (res.questions.length < 5) {
+        this.noQuestionLeft = true;
       }
+    },
+    error: (err) => {
+      console.log(err);
+      this.requestMade.next(false);
+    },
+    complete: () => {},
+  };
 
-      const a1l = answer1.trim().length;
-      const a2l = answer2.trim().length;
-      if (a1l > 120 || a1l < 1) {
-        errors['answer1'] = true;
-      }
-      if (a2l > 120 || a2l < 1) {
-        errors['answer2'] = true;
-      }
-    }
+  get oldestQuestionDate() {
+    const qLength = this.questions.length;
 
-    if (answerType === AnswerTypes['multi-choice-4']) {
-      if (![1, 2, 3, 4].includes(correctAnswer)) {
-        errors['correctAnswer'] = true;
-      }
-
-      const a1l = answer1.trim().length;
-      const a2l = answer2.trim().length;
-      const a3l = answer3.trim().length;
-      const a4l = answer4.trim().length;
-      if (a1l > 120 || a1l < 1) {
-        errors['answer1'] = true;
-      }
-      if (a2l > 120 || a2l < 1) {
-        errors['answer2'] = true;
-      }
-      if (a3l > 120 || a3l < 1) {
-        errors['answer3'] = true;
-      }
-      if (a4l > 120 || a4l < 1) {
-        errors['answer4'] = true;
-      }
-    }
-
-    return errors;
+    const date = qLength === 0 ? new Date() : new Date(this.questions[qLength - 1].createdAt);
+    const offset = date.getTimezoneOffset();
+    const rDate = new Date(date.getTime() + offset * 60 * 1000);
+    return rDate;
   }
 
-  reduceQuestionForm(f: FormGroup): QuestionForm {
-    const values: QuestionForm = f.value;
-    const {
-      anonymous,
-      questionType,
-      questionText,
-      answerType,
-      answer1,
-      answer2,
-      answer3,
-      answer4,
-      correctAnswer,
-    } = values;
+  constructor(private apiService: ApiService, private questionFormUtils: QuestionFormUtils) {}
 
-    let reducedForm: QuestionForm = {
-      anonymous,
-      questionText,
-      questionType,
-      answerType,
-    };
-
-    if (answerType !== AnswerTypes['text']) {
-      reducedForm = {
-        ...reducedForm,
-        answer1,
-        answer2,
-        correctAnswer,
-      };
-
-      if (answerType === AnswerTypes['multi-choice-4']) {
-        reducedForm = {
-          ...reducedForm,
-          answer3,
-          answer4,
-        };
-      }
-    }
-
-    return reducedForm;
+  questionFormValidator() {
+    return this.questionFormUtils.questionFormValidator.bind(this.questionFormUtils);
   }
 
   submitQuestionForm(f: FormGroup): Observable<any> {
-    return this.apiService.createQuestion(this.reduceQuestionForm(f));
+    return this.apiService.createQuestion(this.questionFormUtils.reduceQuestionForm(f));
   }
 
   getAllQuestions() {
-    this.apiService.getAllQuestions().subscribe(
-      (res) => {
-        console.log(res);
-        this.questions = res.questions;
-      },
-      (err) => {
-        console.log(err);
-      },
-    );
+    this.requestMade.next(true);
+    this.apiService.getAllQuestions().subscribe(this.questionRequestHandler);
+  }
+
+  getQuestionPack() {
+    console.log('Question pack request made!');
+
+    this.requestMade.next(true);
+    this.apiService.getQuestionPack(this.oldestQuestionDate).subscribe(this.questionRequestHandler);
+  }
+
+  scrollEnd() {
+    if (this.requestMade.value || this.noQuestionLeft) {
+      return;
+    }
+    this.getQuestionPack();
   }
 }

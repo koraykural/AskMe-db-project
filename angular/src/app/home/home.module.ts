@@ -24,6 +24,7 @@ import {
   faEdit,
   faCheckCircle,
   faPaperPlane,
+  faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
 import { CustomTimeagoFormatter } from './utils/custom-timeago-formatter';
 
@@ -52,7 +53,7 @@ import { CustomTimeagoFormatter } from './utils/custom-timeago-formatter';
   ],
 })
 export class HomeModule {
-  icons = [faArrowCircleDown, faArrowCircleUp, faDiceFour, faDiceTwo, faEdit, faCheckCircle, faPaperPlane];
+  icons = [faArrowCircleDown, faArrowCircleUp, faDiceFour, faDiceTwo, faEdit, faCheckCircle, faPaperPlane, faSpinner];
 
   constructor(library: FaIconLibrary) {
     library.addIcons(...this.icons);

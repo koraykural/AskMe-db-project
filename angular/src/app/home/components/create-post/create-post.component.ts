@@ -4,6 +4,7 @@ import { trigger, style, animate, transition } from '@angular/animations';
 import { QuestionService } from '../../services/question.service';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
+import { QuestionFormUtils } from '../../utils/question-form-utils';
 
 @Component({
   selector: 'app-create-post',
@@ -36,7 +37,7 @@ export class CreatePostComponent implements OnInit {
       answer4: new FormControl(''),
       correctAnswer: new FormControl(0),
     },
-    this.questionService.questionFormValidator.bind(this.questionService),
+    this.questionFormUtils.questionFormValidator.bind(this.questionFormUtils),
   );
 
   anonymousQuestionCost = environment.anonymousQuestionCost;
@@ -69,7 +70,11 @@ export class CreatePostComponent implements OnInit {
     },
   ];
 
-  constructor(private questionService: QuestionService, private router: Router) {}
+  constructor(
+    private questionService: QuestionService,
+    private router: Router,
+    private questionFormUtils: QuestionFormUtils,
+  ) {}
 
   ngOnInit(): void {
     this.questionForm.get('anonymous').valueChanges.subscribe(this.setCost.bind(this));

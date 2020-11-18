@@ -6,7 +6,8 @@ POST api/question/create,
 from flask import Blueprint, request, jsonify, g
 from app.middlewares.auth_middleware import auth_required
 from app.validators import validate_request, question_validators
-from app.database.question_db import Question, get_all_question
+from app.database.question_db import Question, get_all_question, \
+    get_question_pack
 
 question_blueprint = Blueprint('question_blueprint', __name__)
 
@@ -52,3 +53,20 @@ def all_questions():
     """
 
     return jsonify(questions=get_all_question())
+
+
+@question_blueprint.route("/pack", methods=['GET'])
+@auth_required()
+def question_pack():
+    """
+    GET api/question/pack
+
+    Parameters:
+    older_than (number): Questions will be older than this timestamp.
+
+    Returns:
+    obj: A question pack for defined pagination
+    """
+    older_than = request.args.get('older_than', None)
+
+    return jsonify(questions=get_question_pack(older_than))

@@ -12,6 +12,7 @@ def create_app():
     register_error_handlers(app)
     register_blueprints(app)
     register_static_content(app)
+    minify_json_response(app)
 
     return app
 
@@ -37,9 +38,11 @@ def register_error_handlers(app):
 def register_blueprints(app):
     from app.routes.auth_route import auth_blueprint
     from app.routes.question_route import question_blueprint
+    from app.routes.user_route import user_blueprint
 
     app.register_blueprint(auth_blueprint, url_prefix='/api/auth')
     app.register_blueprint(question_blueprint, url_prefix='/api/question')
+    app.register_blueprint(user_blueprint, url_prefix='/api/user')
 
     return None
 
@@ -68,3 +71,9 @@ def register_static_content(app):
         return app.send_static_file("index.html")
 
     return None
+
+
+def minify_json_response(app):
+    from .exts import MiniJSONEncoder
+    app.json_encoder = MiniJSONEncoder
+    app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
