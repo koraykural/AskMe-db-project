@@ -17,9 +17,12 @@ with dbapi2.connect(dsn) as con:
             "password" BYTEA NOT NULL, "askpoints" int DEFAULT 0,
             "registered_at" timestamp DEFAULT (now() AT TIME ZONE 'utc'));"""
         )
-        # cur.execute("CREATE TYPE question_type AS ENUM('text')")
-        # cur.execute("CREATE TYPE answer_type AS ENUM('text', \
-        # 'multi-choice-2', 'multi-choice-4')")
+        try:
+            cur.execute("CREATE TYPE question_type AS ENUM('text')")
+            cur.execute("CREATE TYPE answer_type AS ENUM('text', \
+            'multi-choice-2', 'multi-choice-4')")
+        except Exception:
+            pass
         cur.execute("""CREATE TABLE IF NOT EXISTS "questions" ( "id" serial
         PRIMARY KEY,"owner_id" uuid NOT NULL, "anonymous" boolean NOT NULL,
             "question_type" question_type DEFAULT ('text'), "question_text"
