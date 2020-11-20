@@ -2,9 +2,10 @@
 Database module
 This file contains connection to Database
 """
+import os
 import psycopg2 as dbapi2
 
-dsn = "postgres://postgres:123456@localhost:5433/askme"
+dsn = os.getenv('DATABASE_URL')
 
 with dbapi2.connect(dsn) as con:
     with con.cursor() as cur:

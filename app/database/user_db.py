@@ -3,10 +3,11 @@ This file contains User class.
 
 User class has database operation methods.
 """
+import os
 from uuid import uuid4 as uuid
 import psycopg2 as dbapi2
 
-dsn = "postgres://postgres:123456@localhost:5433/askme"
+dsn = os.getenv('DATABASE_URL')
 
 
 class User:

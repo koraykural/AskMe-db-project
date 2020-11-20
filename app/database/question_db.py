@@ -3,10 +3,11 @@ This file contains Question class.
 
 Question class has database operation methods.
 """
+import os
 from datetime import datetime
 import psycopg2 as dbapi2
 
-dsn = "postgres://postgres:123456@localhost:5433/askme"
+dsn = os.getenv('DATABASE_URL')
 AnswerTypes = ["multi-choice-4", "multi-choice-2", "text"]
 QuestionTypes = ["text"]
 
@@ -121,7 +122,6 @@ def get_all_question():
             cur.execute(statement)
             rows = cur.fetchall()
             questions = []
-            print(rows[0])
             for row in rows:
                 questions.append(serializer(*row))
             return [e.serialize() for e in questions]
@@ -139,7 +139,6 @@ def get_question_pack(older_than):
 
             statement += "ORDER BY q.created_at DESC LIMIT 5"
 
-            print(statement, (older_than, ))
             cur.execute(statement, (older_than, ))
             rows = cur.fetchall()
             questions = []

@@ -1,11 +1,14 @@
 """
 This file contains authentication middleware decorator and error handler.
 """
-from flask import request, g
 import jwt
+import os
+from flask import request, g
 from functools import wraps
 from . import AuthorizationError
 from app.database import user_db
+
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 
 def auth_required():
@@ -23,8 +26,7 @@ def auth_required():
                     raise AuthorizationError(token_missing=True)
 
                 token = auth_header_list[1]
-                secret = "as'^&sdffsd24552DFS234fs"
-                payload = jwt.decode(token, secret, algorithms=['HS256'])
+                payload = jwt.decode(token, SECRET_KEY, algorithms=['HS256'])
                 user_id = payload.get('id')
                 user = user_db.find_by_id(user_id)
                 if user is None:

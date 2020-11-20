@@ -6,8 +6,9 @@ POST api/auth/register,
 GET api/auth/check,
 GET api/auth/renew
 """
-from flask import Blueprint, request, jsonify, g
 import jwt
+import os
+from flask import Blueprint, request, jsonify, g
 from datetime import datetime, timedelta
 from app.validators import validate_request, auth_validators
 from app.middlewares import AuthorizationError, api_error
@@ -17,13 +18,16 @@ from app.database.user_db import User, \
     find_by_email, is_email_unique, is_username_unique
 
 auth_blueprint = Blueprint('auth_blueprint', __name__)
+env = os.getenv('environment')
+SECRET_KEY = os.getenv('SECRET_KEY')
 
 
 @auth_blueprint.after_request
 def after_request(response):
     header = response.headers
-    header['Access-Control-Allow-Headers'] = '*'
-    header['Access-Control-Allow-Origin'] = '*'
+    if env == 'development':
+        header['Access-Control-Allow-Headers'] = '*'
+        header['Access-Control-Allow-Origin'] = '*'
     return response
 
 
@@ -126,8 +130,7 @@ def renew():
 
 
 def create_token(user_id):
-    secret = "as'^&sdffsd24552DFS234fs"
     expiration_time = datetime.utcnow() + timedelta(hours=3)
     jwt_token = jwt.encode({'exp': expiration_time, 'id': user_id},
-                           secret, algorithm='HS256').decode('utf-8')
+                           SECRET_KEY, algorithm='HS256').decode('utf-8')
     return jwt_token

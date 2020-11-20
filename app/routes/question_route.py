@@ -2,7 +2,10 @@
 This file contains handlers for question routes.
 
 POST api/question/create,
+GET api/question/pack,
+GET api/question/all
 """
+import os
 from flask import Blueprint, request, jsonify, g
 from app.middlewares.auth_middleware import auth_required
 from app.validators import validate_request, question_validators
@@ -10,13 +13,15 @@ from app.database.question_db import Question, get_all_question, \
     get_question_pack
 
 question_blueprint = Blueprint('question_blueprint', __name__)
+env = os.getenv('environment')
 
 
 @question_blueprint.after_request
 def after_request(response):
     header = response.headers
-    header['Access-Control-Allow-Headers'] = '*'
-    header['Access-Control-Allow-Origin'] = '*'
+    if env == 'development':
+        header['Access-Control-Allow-Headers'] = '*'
+        header['Access-Control-Allow-Origin'] = '*'
     return response
 
 
