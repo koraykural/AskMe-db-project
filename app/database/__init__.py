@@ -9,6 +9,7 @@ dsn = os.getenv('DATABASE_URL')
 
 with dbapi2.connect(dsn) as con:
     with con.cursor() as cur:
+        print(dsn)
         cur.execute('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";')
         cur.execute(
             """CREATE TABLE IF NOT EXISTS "users" ( "id" uuid PRIMARY KEY
@@ -17,12 +18,6 @@ with dbapi2.connect(dsn) as con:
             "password" BYTEA NOT NULL, "askpoints" int DEFAULT 0,
             "registered_at" timestamp DEFAULT (now() AT TIME ZONE 'utc'));"""
         )
-        try:
-            cur.execute("CREATE TYPE question_type AS ENUM('text')")
-            cur.execute("CREATE TYPE answer_type AS ENUM('text', \
-            'multi-choice-2', 'multi-choice-4')")
-        except Exception:
-            pass
         cur.execute("""CREATE TABLE IF NOT EXISTS "questions" ( "id" serial
         PRIMARY KEY,"owner_id" uuid NOT NULL, "anonymous" boolean NOT NULL,
             "question_type" question_type DEFAULT ('text'), "question_text"
@@ -35,3 +30,10 @@ with dbapi2.connect(dsn) as con:
             REFERENCES "users" ("id");
         """)
         con.commit()
+
+# try:
+#     cur.execute("CREATE TYPE question_type AS ENUM('text')")
+#     cur.execute("CREATE TYPE answer_type AS ENUM('text', \
+#     'multi-choice-2', 'multi-choice-4')")
+# except Exception:
+#     pass
