@@ -12,6 +12,7 @@ pyjwt = "*"
 whitenoise = "*"
 psycopg2 = "*"
 python-dotenv = "*"
+gunicorn = "*"
 
 [requires]
 python_version = "3.9"
