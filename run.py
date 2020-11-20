@@ -19,4 +19,4 @@ elif env == 'production':
 host = os.getenv('host', '0.0.0.0')
 port = os.getenv('port', 5000)
 
-app.run(host=host, port=port)
+app.run()
