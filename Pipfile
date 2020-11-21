@@ -13,6 +13,7 @@ whitenoise = "*"
 psycopg2 = "*"
 python-dotenv = "*"
 gunicorn = "*"
+waitress = "*"
 
 [requires]
 python_version = "3.9"

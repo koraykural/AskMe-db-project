@@ -4,6 +4,7 @@ Package entry point
 import os
 from app import create_app
 from dotenv import load_dotenv
+import waitress
 
 
 load_dotenv()
@@ -16,7 +17,8 @@ if env == 'development':
 elif env == 'production':
     app.config.from_object('config.Prod')
 
-host = os.getenv('host', '0.0.0.0')
-port = os.getenv('port', 5000)
+# host = os.getenv('host')
+port = int(os.getenv('port', 33507))
 
-app.run()
+if __name__ == "__main__":
+    waitress.serve(app, port=port)
