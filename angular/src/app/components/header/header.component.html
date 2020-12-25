@@ -5,10 +5,10 @@
   <div>
     <a class="text-3xl font-semibold" routerLink="/">AskMe</a>
   </div>
-  <div class="flex-grow flex justify-center">
-    <div class="mx-auto" *ngIf="userService.userDataExists | async">{{ userService.userData.askpoints }} AP</div>
-  </div>
+  <div class="flex-grow flex"></div>
   <div class="flex flex-row items-center h-full">
+    <div class="pr-4" *ngIf="userService.userDataExists | async">{{ userService.userData.askpoints }} AP</div>
+
     <ul class="hidden sm:flex flex-row h-full">
       <ng-container *ngIf="authService.isAuthenticated | async">
         <li *ngFor="let link of signedInLinks">
@@ -104,6 +104,6 @@
   *ngIf="menuOpen"
   (click)="menuOpen = !menuOpen"
   [@dropShadow]
-  class="fixed w-screen h-screen left-0 z-40 bg-black bg-opacity-25 overflow-hidden sm:hidden"
+  class="fixed w-screen h-screen left-0 z-40 bg-black bg-opacity-50 overflow-hidden sm:hidden"
   style="top: 3rem"
 ></div>

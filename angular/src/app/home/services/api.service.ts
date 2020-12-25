@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { UserData } from './user.service';
 import { Observable } from 'rxjs';
 import { ApiResponse, QuestionData, QuestionForm } from 'src/app/interfaces';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -25,9 +26,16 @@ export class ApiService {
     return this.http.get<{ questions: QuestionData[] }>(`${this.baseUrl}/question/all`);
   }
 
-  getQuestionPack(olderThan: Date) {
-    const dStr = olderThan.getTime() / 1000;
-    console.log(new Date(dStr * 1000));
-    return this.http.get<{ questions: QuestionData[] }>(`${this.baseUrl}/question/pack?older_than=${dStr}`);
+  getQuestionPack(olderThan: number) {
+    console.log(new Date(olderThan * 1000).toUTCString());
+    return this.http.get<{ questions: QuestionData[] }>(`${this.baseUrl}/question/pack?older_than=${olderThan}`);
+  }
+
+  vote(questionId: number, userId: string, vote: 'up' | 'down') {
+    return this.http.post(`${this.baseUrl}/vote/${vote}`, { question_id: questionId, user_id: userId });
+  }
+
+  deleteVote(questionId: number, userId: string) {
+    return this.http.post(`${this.baseUrl}/vote/delete`, { question_id: questionId, user_id: userId });
   }
 }

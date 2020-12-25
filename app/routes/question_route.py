@@ -72,6 +72,8 @@ def question_pack():
     Returns:
     obj: A question pack for defined pagination
     """
+    user = g.get('user')
+    user_id = user.id
     older_than = request.args.get('older_than', None)
 
-    return jsonify(questions=get_question_pack(older_than))
+    return jsonify(questions=get_question_pack(older_than, user_id))

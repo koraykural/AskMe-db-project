@@ -3,11 +3,8 @@ This file contains User class.
 
 User class has database operation methods.
 """
-import os
 from uuid import uuid4 as uuid
-import psycopg2 as dbapi2
-
-dsn = os.getenv('DATABASE_URL')
+from . import con
 
 
 class User:
@@ -25,14 +22,16 @@ class User:
             % (self.id, self.email, self.username)
 
     def save(self):
-        with dbapi2.connect(dsn) as con:
-            with con.cursor() as cur:
-                statement = """INSERT INTO users (id, email, username,
-            password, askpoints) VALUES (%s, %s,%s,%s,%s)"""
-                cur.execute(statement,
-                            (self.id, self.email, self.username,
-                             self.password, self.askpoints,))
-                con.commit()
+        with con.cursor() as cur:
+            statement = """
+                INSERT INTO users (id, email, username,
+                password, askpoints) VALUES (%s, %s,%s,%s,%s)
+                """
+            cur.execute(statement,
+                        (self.id, self.email, self.username,
+                         self.password, self.askpoints,))
+            cur.close()
+            con.commit()
         return None
 
     def serialize(self):
@@ -47,11 +46,11 @@ class User:
 
 
 def is_email_unique(email):
-    with dbapi2.connect(dsn) as con:
-        with con.cursor() as cur:
-            statement = "SELECT 1 FROM users WHERE email = %s LIMIT 1"
-            cur.execute(statement, (email,))
-            row = cur.fetchone()
+    with con.cursor() as cur:
+        statement = "SELECT 1 FROM users WHERE email = %s LIMIT 1"
+        cur.execute(statement, (email,))
+        row = cur.fetchone()
+        cur.close()
     if row is None:
         return True
     else:
@@ -59,38 +58,46 @@ def is_email_unique(email):
 
 
 def is_username_unique(username):
-    with dbapi2.connect(dsn) as con:
-        with con.cursor() as cur:
-            statement = "SELECT 1 FROM users WHERE username = %s LIMIT 1"
-            cur.execute(statement, (username,))
-            row = cur.fetchone()
-            if row is None:
-                return True
-            else:
-                return False
+    with con.cursor() as cur:
+        statement = "SELECT 1 FROM users WHERE username = %s LIMIT 1"
+        cur.execute(statement, (username,))
+        row = cur.fetchone()
+        if row is None:
+            return True
+        else:
+            return False
+        cur.close()
 
 
 def find_by_email(email):
-    with dbapi2.connect(dsn) as con:
-        with con.cursor() as cur:
-            statement = "SELECT * FROM users WHERE email = %s LIMIT 1"
-            cur.execute(statement, (email,))
-            row = cur.fetchone()
-            if row is None:
-                return None
-            else:
-                return User(email=row[1], username=row[2], pw_hash=row[3],
-                            id=row[0], askpoints=row[4], registered_at=row[5])
+    with con.cursor() as cur:
+        statement = "SELECT * FROM users WHERE email = %s LIMIT 1"
+        cur.execute(statement, (email,))
+        row = cur.fetchone()
+        if row is None:
+            return None
+        else:
+            return User(email=row[1], username=row[2], pw_hash=row[3],
+                        id=row[0], askpoints=row[4], registered_at=row[5])
+        cur.close()
 
 
 def find_by_id(id):
-    with dbapi2.connect(dsn) as con:
-        with con.cursor() as cur:
-            statement = "SELECT * FROM users WHERE id = %s LIMIT 1"
-            cur.execute(statement, (id,))
-            row = cur.fetchone()
-            if row is None:
-                return None
-            else:
-                return User(email=row[1], username=row[2], pw_hash=row[3],
-                            id=row[0], askpoints=row[4], registered_at=row[5])
+    with con.cursor() as cur:
+        statement = "SELECT * FROM users WHERE id = %s LIMIT 1"
+        cur.execute(statement, (id,))
+        row = cur.fetchone()
+        if row is None:
+            return None
+        else:
+            return User(email=row[1], username=row[2], pw_hash=row[3],
+                        id=row[0], askpoints=row[4], registered_at=row[5])
+        cur.close()
+
+
+def change_askpoints(id, amount):
+    with con.cursor() as cur:
+        statement = "UPDATE users SET askpoints = askpoints + %s WHERE id = %s"
+        cur.execute(statement, (amount, id))
+        cur.close()
+        con.commit()

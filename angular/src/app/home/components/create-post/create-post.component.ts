@@ -43,6 +43,7 @@ export class CreatePostComponent implements OnInit {
   anonymousQuestionCost = environment.anonymousQuestionCost;
   questionCost = environment.questionCost;
   cost: number = this.questionCost;
+  buttonState: 'pending' | 'clicked' = 'pending';
 
   get selectedAnswerType() {
     return this.questionForm.get('answerType').value;
@@ -85,12 +86,14 @@ export class CreatePostComponent implements OnInit {
   }
 
   submit() {
+    this.buttonState = 'clicked';
     this.questionService.submitQuestionForm(this.questionForm).subscribe(
       (val) => {
         console.log(val);
         this.router.navigateByUrl('/');
       },
       (err) => {
+        this.buttonState = 'pending';
         console.log(err);
       },
     );

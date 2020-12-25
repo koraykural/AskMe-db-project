@@ -2,6 +2,7 @@
 Package entry point
 """
 import os
+from flask import g
 from app import create_app
 from dotenv import load_dotenv
 import waitress

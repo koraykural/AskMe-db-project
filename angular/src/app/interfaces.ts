@@ -8,6 +8,7 @@ export interface ApiResponse {
 }
 
 export interface QuestionData {
+  id: number;
   anonymous: boolean;
   owner: string;
   ownername: string;

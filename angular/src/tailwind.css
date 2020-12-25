@@ -43,10 +43,12 @@ input:focus {
 }
 
 .answer-button {
-  @apply w-full text-white text-lg font-medium my-1 py-2 px-6 bg-indigo-400 transition-all duration-300 rounded;
+  /* --bg-opacity: 0.8 !important; */
+  @apply w-full text-white text-lg font-medium my-1 py-2 px-6 bg-indigo-600 bg-opacity-85 transition-all duration-300 rounded;
 }
 .answer-button:hover {
-  @apply bg-indigo-500 shadow;
+  /* --bg-opacity: 1 !important; */
+  @apply bg-opacity-100 shadow;
 }
 
 .upvote-animation {
@@ -92,59 +94,35 @@ input:focus {
 }
 
 .downvote-animation {
-  -webkit-animation: downvote-animation 0.8s ease-in-out both;
-  animation: downvote-animation 0.8s ease-in-out both;
+  -webkit-animation: downvote-animation 0.4s ease-in-out both;
+  animation: downvote-animation 0.4s ease-in-out both;
 }
 
 @-webkit-keyframes downvote-animation {
   0% {
-    -webkit-transform: rotate(0);
-    transform: rotate(0);
-    -webkit-transform-origin: 0% 100%;
-    transform-origin: 0% 100%;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
   }
-  20% {
-    -webkit-transform: rotate(45deg);
-    transform: rotate(45deg);
-    -webkit-transform-origin: -25% 75%;
-    transform-origin: -25% 75%;
-  }
-  80% {
-    -webkit-transform: rotate(45deg);
-    transform: rotate(45deg);
-    -webkit-transform-origin: -25% 75%;
-    transform-origin: -25% 75%;
+  50% {
+    -webkit-transform: translateY(+16px);
+    transform: translateY(+16px);
   }
   100% {
-    -webkit-transform: rotate(0);
-    transform: rotate(0);
-    -webkit-transform-origin: 0% 100%;
-    transform-origin: 0% 100%;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
   }
 }
 @keyframes downvote-animation {
   0% {
-    -webkit-transform: rotate(0);
-    transform: rotate(0);
-    -webkit-transform-origin: 0% 100%;
-    transform-origin: 0% 100%;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
   }
-  20% {
-    -webkit-transform: rotate(45deg);
-    transform: rotate(45deg);
-    -webkit-transform-origin: -25% 75%;
-    transform-origin: -25% 75%;
-  }
-  80% {
-    -webkit-transform: rotate(45deg);
-    transform: rotate(45deg);
-    -webkit-transform-origin: -25% 75%;
-    transform-origin: -25% 75%;
+  50% {
+    -webkit-transform: translateY(+16px);
+    transform: translateY(+16px);
   }
   100% {
-    -webkit-transform: rotate(0);
-    transform: rotate(0);
-    -webkit-transform-origin: 0% 100%;
-    transform-origin: 0% 100%;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
   }
 }

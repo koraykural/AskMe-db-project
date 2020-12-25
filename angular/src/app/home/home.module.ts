@@ -12,7 +12,6 @@ import { PostPlaceholderComponent } from './components/post-placeholder/post-pla
 import { SharedModule } from '../shared/shared.module';
 import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
 import { TimeagoModule, TimeagoFormatter, TimeagoClock, TimeagoDefaultClock } from 'ngx-timeago';
-import { QuestionComponent } from './components/post/question/question.component';
 import { AnswerComponent } from './components/post/answer/answer.component';
 import { AnswerMultiTwoComponent } from './components/post/answer/answer-multi-two/answer-multi-two.component';
 import { AnswerMultiFourComponent } from './components/post/answer/answer-multi-four/answer-multi-four.component';
@@ -35,7 +34,6 @@ import { CustomTimeagoFormatter } from './utils/custom-timeago-formatter';
     AnswerTextComponent,
     CreatePostComponent,
     PostPlaceholderComponent,
-    QuestionComponent,
     AnswerComponent,
     AnswerMultiTwoComponent,
     AnswerMultiFourComponent,

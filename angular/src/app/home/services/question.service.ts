@@ -4,6 +4,7 @@ import { Observable, BehaviorSubject, Observer } from 'rxjs';
 import { ApiService } from './api.service';
 import { QuestionData } from 'src/app/interfaces';
 import { QuestionFormUtils } from '../utils/question-form-utils';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -29,16 +30,31 @@ export class QuestionService {
     complete: () => {},
   };
 
-  get oldestQuestionDate() {
+  get oldestQuestionDate(): number {
     const qLength = this.questions.length;
+    let qDate: number;
 
-    const date = qLength === 0 ? new Date() : new Date(this.questions[qLength - 1].createdAt);
-    const offset = date.getTimezoneOffset();
-    const rDate = new Date(date.getTime() + offset * 60 * 1000);
-    return rDate;
+    if (qLength === 0) {
+      qDate = Date.now();
+    } else {
+      const date = new Date(this.questions[qLength - 1].createdAt);
+      qDate = date.getTime();
+    }
+
+    return qDate / 1000;
   }
 
-  constructor(private apiService: ApiService, private questionFormUtils: QuestionFormUtils) {}
+  constructor(
+    private apiService: ApiService,
+    private questionFormUtils: QuestionFormUtils,
+    private authService: AuthService,
+  ) {
+    this.authService.isAuthenticated.subscribe((val) => {
+      if (!val) {
+        this.reset();
+      }
+    });
+  }
 
   questionFormValidator() {
     return this.questionFormUtils.questionFormValidator.bind(this.questionFormUtils);
@@ -54,8 +70,6 @@ export class QuestionService {
   }
 
   getQuestionPack() {
-    console.log('Question pack request made!');
-
     this.requestMade.next(true);
     this.apiService.getQuestionPack(this.oldestQuestionDate).subscribe(this.questionRequestHandler);
   }
@@ -65,5 +79,11 @@ export class QuestionService {
       return;
     }
     this.getQuestionPack();
+  }
+
+  reset() {
+    this.questions = [];
+    this.requestMade.next(false);
+    this.noQuestionLeft = false;
   }
 }

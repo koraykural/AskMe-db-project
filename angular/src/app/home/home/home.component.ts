@@ -11,7 +11,8 @@ export class HomeComponent implements OnInit {
   constructor(public questionService: QuestionService, private userService: UserService) {}
 
   ngOnInit(): void {
-    this.questionService.getQuestionPack();
-    this.userService.setUserData();
+    if (this.questionService.questions.length < 1) {
+      this.questionService.getQuestionPack();
+    }
   }
 }

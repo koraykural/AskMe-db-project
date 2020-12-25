@@ -148,7 +148,7 @@
     <div class="flex justify-center">
       <button
         type="submit"
-        [disabled]="questionForm.invalid"
+        [disabled]="questionForm.invalid || buttonState === 'clicked'"
         class="px-6 py-2 text-white font-semibold rounded"
         [ngClass]="
           questionForm.invalid
@@ -156,11 +156,12 @@
             : 'bg-indigo-500 hover:bg-indigo-600 transition-colors duration-300'
         "
       >
-        Publish and Pay {{ cost }} AskPoints
+        <span *ngIf="buttonState === 'pending'">Publish and Pay {{ cost }} AskPoints</span>
+        <span *ngIf="buttonState === 'clicked'">
+          Please wait
+          <fa-icon class="ml-2" [icon]="'spinner'" [spin]="true"></fa-icon>
+        </span>
       </button>
     </div>
-    <!-- <div class="w-full mt-4">
-      {{ questionForm.errors | json }}
-    </div> -->
   </form>
 </div>
