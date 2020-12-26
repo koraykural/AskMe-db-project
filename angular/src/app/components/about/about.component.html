@@ -1,0 +1,108 @@
+<div class="container">
+  <div class="bg-white rounded shadow p-8 my-8 w-full max-w-2xl mx-auto">
+    <h1>What is AskMe?</h1>
+    <p>AskMe is a social media where people can ask any kind of question and get answers.</p>
+    <p>
+      For building up a better community, members vote questions and owner of the voted question
+      earns or loses askpoints. These askpoints are later needed for asking more questions.
+    </p>
+    <p>Also, for higher askpoint costs, one can ask a question anonymously.</p>
+  </div>
+  <div class="bg-white rounded shadow p-8 my-8 w-full max-w-2xl mx-auto">
+    <h1>Details About AskMe?</h1>
+    <p>This web app is a term project for the database course given at ITU.</p>
+    <p>For database, postgreSQL is used.</p>
+    <p>For backend, python - flask is used.</p>
+    <p>For frontend, angular and tailwindCSS is used.</p>
+  </div>
+  <div class="bg-white rounded shadow p-8 my-8 w-full max-w-2xl mx-auto">
+    <h1>Who am I?</h1>
+    <p>My name is Koray Kural.</p>
+    <p>I am a third grade computer engineering student at Istanbul Technical University.</p>
+    <p>
+      I have been interested in web development for two years now and have experience with several
+      frontend, backend and database technologies. Currently, I am shifting my knowledge to desktop
+      application development with
+      <a
+        class="text-blue-600 hover:text-blue-700 font-semibold"
+        href="https://www.electronjs.org/"
+        target="_blank"
+        >electron</a
+      >.
+    </p>
+  </div>
+  <div class="bg-white rounded shadow p-8 my-8 w-full max-w-2xl mx-auto">
+    <h1>Contact</h1>
+    <form [formGroup]="contactForm" (submit)="submitContactForm()" method="POST">
+      <label class="block mb-6" [ngClass]="{ 'error ': name.touched && name.invalid }">
+        <span>Your Name</span> <span class="text-red-500">*</span>
+        <input
+          class="regular-input"
+          type="text"
+          name="name"
+          formControlName="name"
+          placeholder="Awesome Person"
+        />
+      </label>
+      <label class="block mb-6" [ngClass]="{ error: _replyto.touched && _replyto.invalid }">
+        <span>Your Email</span> <span class="text-red-500">*</span>
+        <input
+          class="regular-input"
+          type="email"
+          name="email"
+          formControlName="_replyto"
+          placeholder="awesome@person.com"
+        />
+        <p class="text-xs font-medium pl-4 my-1">You won't get any unecessary emails from me.</p>
+      </label>
+      <label class="block mb-6" [ngClass]="{ error: _subject.touched && _subject.invalid }">
+        <span>Subject</span> <span class="text-red-500">*</span>
+        <input class="regular-input" type="text" formControlName="_subject" placeholder="Subject" />
+      </label>
+      <label class="block mb-6" [ngClass]="{ error: message.touched && message.invalid }">
+        <span>Message</span> <span class="text-red-500">*</span>
+        <textarea
+          class="regular-input resize-none"
+          type="text"
+          formControlName="message"
+          placeholder="What do you want to say to me?"
+          rows="4"
+          autosize
+        ></textarea>
+      </label>
+      <div
+        *ngIf="(formSubmitted | async) && !formSubmittedSuccessfuly"
+        class="w-full text-center bg-yellow-200 border-2 rounded-sm border-yellow-400 mb-4 py-4"
+      >
+        <span class="text-yellow-800 font-medium">Your message is on the way.</span>
+      </div>
+      <div
+        *ngIf="formSubmittedSuccessfuly"
+        class="w-full text-center bg-green-300 border-2 rounded-sm border-green-400 mb-4 py-4"
+      >
+        <span class="text-green-800 font-medium">Your message is received. Thank you!</span>
+      </div>
+      <div
+        *ngIf="(formSubmitted | async) === false"
+        class="w-full text-center bg-red-300 border-2 rounded-sm border-red-400 mb-4 py-4"
+      >
+        <span class="text-red-800 font-medium">Opps! I could not get the message.</span>
+        <br />
+        <span class="text-red-800 font-medium"
+          >Please send an email to me:
+          <a class="text-red-800 font-semibold" href="mailto:kural17@itu.edu.tr"
+            >kural17@itu.edu.tr</a
+          ></span
+        >
+      </div>
+      <div class="flex justify-center">
+        <button
+          class="px-10 py-3 text-lg font-medium bg-indigo-600 hover:bg-indigo-700 text-white mx-auto transition-colors duration-200 rounded-sm"
+          type="submit"
+        >
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

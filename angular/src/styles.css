@@ -20825,6 +20825,32 @@ input:focus {
   user-select: none;
 }
 
+.regular-input {
+  display: block;
+  width: 100%;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-width: 1px;
+  --border-opacity: 1;
+  border-color: #cbd5e0;
+  border-color: rgba(203, 213, 224, var(--border-opacity));
+  transition-property: box-shadow;
+  transition-duration: 300ms;
+  border-radius: 0.125rem;
+}
+
+.regular-input:focus {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.regular-input.error {
+  --border-opacity: 1;
+  border-color: #e53e3e;
+  border-color: rgba(229, 62, 62, var(--border-opacity));
+}
+
 .answer-button {
   /* --bg-opacity: 0.8 !important; */
   width: 100%;

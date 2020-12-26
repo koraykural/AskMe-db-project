@@ -10,7 +10,6 @@ import { PostComponent } from './components/post/post.component';
 import { CreatePostComponent } from './components/create-post/create-post.component';
 import { PostPlaceholderComponent } from './components/post-placeholder/post-placeholder.component';
 import { SharedModule } from '../shared/shared.module';
-import { TextareaAutosizeModule } from 'ngx-textarea-autosize';
 import { TimeagoModule, TimeagoFormatter, TimeagoClock, TimeagoDefaultClock } from 'ngx-timeago';
 import { AnswerComponent } from './components/post/answer/answer.component';
 import { AnswerMultiTwoComponent } from './components/post/answer/answer-multi-two/answer-multi-two.component';
@@ -43,7 +42,6 @@ import { CustomTimeagoFormatter } from './utils/custom-timeago-formatter';
     HomeRoutingModule,
     FontAwesomeModule,
     SharedModule,
-    TextareaAutosizeModule,
     TimeagoModule.forChild({
       formatter: { provide: TimeagoFormatter, useClass: CustomTimeagoFormatter },
       clock: { provide: TimeagoClock, useClass: TimeagoDefaultClock },
@@ -51,7 +49,16 @@ import { CustomTimeagoFormatter } from './utils/custom-timeago-formatter';
   ],
 })
 export class HomeModule {
-  icons = [faArrowCircleDown, faArrowCircleUp, faDiceFour, faDiceTwo, faEdit, faCheckCircle, faPaperPlane, faSpinner];
+  icons = [
+    faArrowCircleDown,
+    faArrowCircleUp,
+    faDiceFour,
+    faDiceTwo,
+    faEdit,
+    faCheckCircle,
+    faPaperPlane,
+    faSpinner,
+  ];
 
   constructor(library: FaIconLibrary) {
     library.addIcons(...this.icons);

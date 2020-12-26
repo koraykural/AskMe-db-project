@@ -93,11 +93,3 @@ def find_by_id(id):
             return User(email=row[1], username=row[2], pw_hash=row[3],
                         id=row[0], askpoints=row[4], registered_at=row[5])
         cur.close()
-
-
-def change_askpoints(id, amount):
-    with con.cursor() as cur:
-        statement = "UPDATE users SET askpoints = askpoints + %s WHERE id = %s"
-        cur.execute(statement, (amount, id))
-        cur.close()
-        con.commit()

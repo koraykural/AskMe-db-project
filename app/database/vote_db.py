@@ -16,20 +16,6 @@ def vote_question(question_id, user_id, vote):
     return
 
 
-def get_vote(question_id, user_id):
-    with con.cursor() as cur:
-        statement = """
-            SELECT vote FROM votes WHERE question_id = %s AND user_id = %s
-            """
-        cur.execute(statement, (question_id, user_id,))
-        row = cur.fetchone()
-        vote = None
-        if row is not None:
-            vote = row[0]
-        cur.close()
-        return vote
-
-
 def upvote_question(question_id, user_id):
     vote_question(question_id, user_id, True)
 

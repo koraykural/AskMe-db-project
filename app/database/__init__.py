@@ -92,6 +92,21 @@ setup_statement = """
     END;
     $$ LANGUAGE plpgsql;
 
+    CREATE FUNCTION withdraw_question_cost() RETURNS trigger AS
+    $$
+    BEGIN
+        IF NEW.anonymous = true THEN
+            UPDATE users SET askpoints = askpoints - 3
+            WHERE id = NEW.owner_id;
+            RETURN NEW;
+        ELSE
+            UPDATE users SET askpoints = askpoints - 1
+            WHERE id = NEW.owner_id;
+            RETURN NEW;
+        END IF;
+    END;
+    $$ LANGUAGE plpgsql;
+
     CREATE FUNCTION update_vote_ap() RETURNS trigger AS
     $$
     BEGIN
@@ -117,6 +132,9 @@ setup_statement = """
 
     CREATE TRIGGER update_vote AFTER UPDATE OF vote ON votes FOR EACH ROW
     EXECUTE PROCEDURE update_vote_ap();
+
+    CREATE TRIGGER create_question AFTER INSERT ON questions FOR EACH ROW
+    EXECUTE PROCEDURE withdraw_question_cost();
 """
 
 # with con:

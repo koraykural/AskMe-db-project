@@ -42,3 +42,10 @@ export enum AnswerTypes {
   'multi-choice-2' = 'multi-choice-2',
   'multi-choice-4' = 'multi-choice-4',
 }
+
+export interface ContactForm {
+  name: string;
+  _replyto: string;
+  _subject: string;
+  message: string;
+}

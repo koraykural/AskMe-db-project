@@ -9,8 +9,7 @@ import os
 from flask import Blueprint, request, jsonify, g
 from app.middlewares.auth_middleware import auth_required
 from app.validators import validate_request, question_validators
-from app.database.question_db import Question, get_all_question, \
-    get_question_pack
+from app.database.question_db import Question, get_question_pack
 
 question_blueprint = Blueprint('question_blueprint', __name__)
 env = os.getenv('environment')
@@ -45,19 +44,6 @@ def create():
     question.save()
 
     return jsonify({'status': 'Success'})
-
-
-@question_blueprint.route("/all", methods=['GET'])
-@auth_required()
-def all_questions():
-    """
-    GET api/question/all
-
-    Returns:
-    obj: All questions.
-    """
-
-    return jsonify(questions=get_all_question())
 
 
 @question_blueprint.route("/pack", methods=['GET'])

@@ -4,6 +4,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { AnonymousGuard } from './auth/anonymous.guard';
+import { AboutComponent } from './components/about/about.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,11 @@ const routes: Routes = [
     component: RegisterComponent,
     canActivate: [AnonymousGuard],
     data: { animation: 'top-right' },
+  },
+  {
+    path: 'about',
+    component: AboutComponent,
+    data: { animation: 'right' },
   },
   {
     path: '',

@@ -1,0 +1,17 @@
+h1 {
+  font-size: 1.875rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+p {
+  margin-bottom: 0.5rem;
+}
+
+label.error > span {
+  color: #e53e3e;
+}
+label.error input,
+label.error textarea {
+  border-color: #e53e3e;
+}

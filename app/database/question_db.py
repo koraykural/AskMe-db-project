@@ -5,16 +5,11 @@ Question class has database operation methods.
 """
 from datetime import datetime
 from . import con
-from .user_db import change_askpoints
 
-anonymous_cost = 3
-regular_cost = 1
 AnswerTypes = ["multi-choice-4", "multi-choice-2", "text"]
-QuestionTypes = ["text"]
 
 
 class Question:
-
     def __init__(self, f=None, id=None, owner_id=None, anonymous=None,
                  question_text=None, upvote_count=0,
                  downvote_count=0, answer_type=None, created_at=datetime.now(),
@@ -72,11 +67,6 @@ class Question:
                             self.answer1, self.answer2, self.answer3,
                             self.answer4, self.correct_answer,
                             datetime.utcnow()))
-            if self.anonymous:
-                change_askpoints(self.owner_id, anonymous_cost * -1)
-            else:
-                change_askpoints(self.owner_id, regular_cost * -1)
-
             cur.close()
             con.commit()
         return None
@@ -139,20 +129,6 @@ def get_question(id):
                         downvote_count=row[12])
 
 
-def get_all_question():
-    with con.cursor() as cur:
-        statement = "SELECT q.*, u.username as ownername FROM " + \
-            "questions as q LEFT JOIN users as u ON q.owner_id " + \
-            "= u.id and q.anonymous = 'f' ORDER BY q.created_at DESC"
-        cur.execute(statement)
-        rows = cur.fetchall()
-        questions = []
-        for row in rows:
-            questions.append(serializer(*row))
-        cur.close()
-        return [e.serialize() for e in questions]
-
-
 def get_question_pack(older_than, user_id):
     with con.cursor() as cur:
         statement = """
@@ -178,15 +154,3 @@ def get_question_pack(older_than, user_id):
             questions.append(serializer(*row))
         cur.close()
         return [e.serialize() for e in questions]
-
-
-def change_owner_askpoints(question_id, amount):
-    with con.cursor() as cur:
-        statement = """
-            UPDATE users SET askpoints = askpoints + %s
-            FROM questions WHERE questions.id = %s
-            AND users.id = questions.owner_id
-            """
-        cur.execute(statement, (amount, question_id))
-        cur.close()
-        con.commit()

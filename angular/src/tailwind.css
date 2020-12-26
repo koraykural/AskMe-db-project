@@ -42,6 +42,16 @@ input:focus {
   user-select: none;
 }
 
+.regular-input {
+  @apply block w-full px-4 py-2 border border-gray-400 transition-shadow duration-300 rounded-sm;
+}
+.regular-input:focus {
+  @apply shadow;
+}
+.regular-input.error {
+  @apply border-red-600;
+}
+
 .answer-button {
   /* --bg-opacity: 0.8 !important; */
   @apply w-full text-white text-lg font-medium my-1 py-2 px-6 bg-indigo-600 bg-opacity-85 transition-all duration-300 rounded;
