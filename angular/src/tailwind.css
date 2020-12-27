@@ -53,11 +53,24 @@ input:focus {
 }
 
 .answer-button {
-  /* --bg-opacity: 0.8 !important; */
-  @apply w-full text-white text-lg font-medium my-1 py-2 px-6 bg-indigo-600 bg-opacity-85 transition-all duration-300 rounded;
+  @apply w-full text-white text-lg font-medium my-1 py-2 px-6 transition-all duration-300 rounded cursor-default;
 }
-.answer-button:hover {
-  /* --bg-opacity: 1 !important; */
+.answer-button.ready {
+  @apply bg-indigo-600 bg-opacity-85 cursor-pointer;
+}
+.answer-button.correct {
+  @apply bg-green-600;
+}
+.answer-button.false {
+  @apply bg-red-700 bg-opacity-75;
+}
+.answer-button.pending {
+  @apply bg-orange-500;
+}
+.answer-button.disabled {
+  @apply bg-indigo-600 bg-opacity-50;
+}
+.answer-button.ready:hover {
   @apply bg-opacity-100 shadow;
 }
 

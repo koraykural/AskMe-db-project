@@ -12,8 +12,6 @@ import { PostPlaceholderComponent } from './components/post-placeholder/post-pla
 import { SharedModule } from '../shared/shared.module';
 import { TimeagoModule, TimeagoFormatter, TimeagoClock, TimeagoDefaultClock } from 'ngx-timeago';
 import { AnswerComponent } from './components/post/answer/answer.component';
-import { AnswerMultiTwoComponent } from './components/post/answer/answer-multi-two/answer-multi-two.component';
-import { AnswerMultiFourComponent } from './components/post/answer/answer-multi-four/answer-multi-four.component';
 import { AnswerTextComponent } from './components/post/answer/answer-text/answer-text.component';
 import {
   faArrowCircleUp,
@@ -23,8 +21,10 @@ import {
   faCheckCircle,
   faPaperPlane,
   faSpinner,
+  faArrowDown,
 } from '@fortawesome/free-solid-svg-icons';
 import { CustomTimeagoFormatter } from './utils/custom-timeago-formatter';
+import { AnswerMultiComponent } from './components/post/answer/answer-multi/answer-multi.component';
 
 @NgModule({
   declarations: [
@@ -34,8 +34,7 @@ import { CustomTimeagoFormatter } from './utils/custom-timeago-formatter';
     CreatePostComponent,
     PostPlaceholderComponent,
     AnswerComponent,
-    AnswerMultiTwoComponent,
-    AnswerMultiFourComponent,
+    AnswerMultiComponent,
   ],
   imports: [
     CommonModule,
@@ -58,6 +57,7 @@ export class HomeModule {
     faCheckCircle,
     faPaperPlane,
     faSpinner,
+    faArrowDown,
   ];
 
   constructor(library: FaIconLibrary) {

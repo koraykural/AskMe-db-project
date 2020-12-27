@@ -3,7 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { UserData } from './user.service';
 import { Observable } from 'rxjs';
-import { ApiResponse, QuestionData, QuestionForm, ContactForm } from 'src/app/interfaces';
+import {
+  ApiResponse,
+  QuestionData,
+  QuestionForm,
+  ContactForm,
+  Answer,
+  ApiError,
+} from 'src/app/interfaces';
 import { AuthService } from 'src/app/auth/auth.service';
 
 @Injectable({
@@ -50,5 +57,16 @@ export class ApiService {
   postContactForm(form: ContactForm) {
     form._subject = `AskMe - ${form._subject}`;
     return this.http.post('https://formspree.io/f/mqkggdzr', form);
+  }
+
+  getAnswers(questionId: number) {
+    return this.http.get<Answer[]>(`${this.baseUrl}/answer/?question_id=${questionId}`);
+  }
+
+  postAnswer(questionId: number, answer: string) {
+    return this.http.post<ApiResponse | ApiError>(`${this.baseUrl}/answer/`, {
+      question_id: questionId,
+      answer,
+    });
   }
 }

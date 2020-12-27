@@ -1,0 +1,34 @@
+<button
+  class="answer-button unselectable"
+  [ngClass]="this.states[1]"
+  [disabled]="this.states[1] !== 'ready'"
+  (click)="submitAnswer(1)"
+>
+  {{ data.answer1 }}
+</button>
+<button
+  class="answer-button unselectable"
+  [ngClass]="this.states[2]"
+  [disabled]="this.states[2] !== 'ready'"
+  (click)="submitAnswer(2)"
+>
+  {{ data.answer2 }}
+</button>
+<ng-container *ngIf="data.answerType === 'multi-choice-4'">
+  <button
+    class="answer-button unselectable"
+    [ngClass]="this.states[3]"
+    [disabled]="this.states[3] !== 'ready'"
+    (click)="submitAnswer(3)"
+  >
+    {{ data.answer3 }}
+  </button>
+  <button
+    class="answer-button unselectable"
+    [ngClass]="this.states[4]"
+    [disabled]="this.states[4] !== 'ready'"
+    (click)="submitAnswer(4)"
+  >
+    {{ data.answer4 }}
+  </button>
+</ng-container>

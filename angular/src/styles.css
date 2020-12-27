@@ -20852,7 +20852,6 @@ input:focus {
 }
 
 .answer-button {
-  /* --bg-opacity: 0.8 !important; */
   width: 100%;
   --text-opacity: 1;
   color: #fff;
@@ -20865,17 +20864,47 @@ input:focus {
   padding-bottom: 0.5rem;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
+  transition-property: all;
+  transition-duration: 300ms;
+  border-radius: 0.25rem;
+  cursor: default;
+}
+
+.answer-button.ready {
   --bg-opacity: 1;
   background-color: #5a67d8;
   background-color: rgba(90, 103, 216, var(--bg-opacity));
   --bg-opacity: 0.85;
-  transition-property: all;
-  transition-duration: 300ms;
-  border-radius: 0.25rem;
+  cursor: pointer;
 }
 
-.answer-button:hover {
-  /* --bg-opacity: 1 !important; */
+.answer-button.correct {
+  --bg-opacity: 1;
+  background-color: #38a169;
+  background-color: rgba(56, 161, 105, var(--bg-opacity));
+}
+
+.answer-button.false {
+  --bg-opacity: 1;
+  background-color: #c53030;
+  background-color: rgba(197, 48, 48, var(--bg-opacity));
+  --bg-opacity: 0.75;
+}
+
+.answer-button.pending {
+  --bg-opacity: 1;
+  background-color: #ed8936;
+  background-color: rgba(237, 137, 54, var(--bg-opacity));
+}
+
+.answer-button.disabled {
+  --bg-opacity: 1;
+  background-color: #5a67d8;
+  background-color: rgba(90, 103, 216, var(--bg-opacity));
+  --bg-opacity: 0.5;
+}
+
+.answer-button.ready:hover {
   --bg-opacity: 1;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
 }

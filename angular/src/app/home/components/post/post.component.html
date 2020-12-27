@@ -14,12 +14,21 @@
           "
         >
           <fa-icon [icon]="'arrow-circle-up'"></fa-icon>
-          <input type="checkbox" [checked]="data.userVote === true" (click)="$event.stopPropagation()" class="hidden" />
+          <input
+            type="checkbox"
+            [checked]="data.userVote === true"
+            (click)="$event.stopPropagation()"
+            class="hidden"
+          />
         </label>
-        <span class="text-green-600 font-medium leading-4 cursor-default mt-1"> {{ data.upvoteCount }} </span>
+        <span class="text-green-600 font-medium leading-4 cursor-default mt-1">
+          {{ data.upvoteCount }}
+        </span>
       </div>
       <div class="mt-3 flex flex-col items-center">
-        <span class="mb-1 text-red-600 font-medium leading-4 cursor-default"> {{ data.downvoteCount }} </span>
+        <span class="mb-1 text-red-600 font-medium leading-4 cursor-default">
+          {{ data.downvoteCount }}
+        </span>
         <label
           class="h-6 leading-none text-2xl cursor-pointer transition-colors duration-200"
           (click)="downVote()"
@@ -45,14 +54,37 @@
   <app-answer [data]="data"></app-answer>
 
   <!-- ----- Bottom Bar ----- -->
-  <div class="flex flex-row items-center mt-4 cursor-default">
+  <div class="flex flex-row justify-center items-center mt-4 cursor-default">
     <ng-container *ngIf="data.ownername">
       <div>{{ data.ownername }}</div>
     </ng-container>
     <ng-container *ngIf="!data.ownername">
       <div class="italic text-gray-600">Anonymous</div>
     </ng-container>
-    <div class="flex-grow"></div>
+    <div class="flex-grow">
+      <button
+        *ngIf="data.answerType === 'text' && data.userAnswer"
+        class="show-answers"
+        (click)="toggleShowAnswers()"
+      >
+        <span *ngIf="!showAnswers">Show answers</span>
+        <span *ngIf="showAnswers">Hide answers</span>
+      </button>
+    </div>
     <div class="text-sm text-gray-600 self-end font-normal">{{ data.createdAt | timeago }}</div>
+  </div>
+
+  <!-- ------ Other Answers ------ -->
+  <div
+    *ngIf="showAnswers"
+    class="overflow-y-auto border-b border-gray-300"
+    style="max-height: 60vh"
+  >
+    <ng-container *ngFor="let answer of answers">
+      <div class="flex flex-col justify-center my-1 py-1 px-2 border-t border-gray-300">
+        <span class="block">{{ answer.answer }}</span>
+        <span class="block text-sm text-gray-600">{{ answer.username }}</span>
+      </div>
+    </ng-container>
   </div>
 </div>

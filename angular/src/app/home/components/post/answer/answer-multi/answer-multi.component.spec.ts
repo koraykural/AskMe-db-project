@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AnswerMultiFourComponent } from './answer-multi-four.component';
+import { AnswerMultiComponent } from './answer-multi.component';
 
-describe('AnswerMultiFourComponent', () => {
-  let component: AnswerMultiFourComponent;
-  let fixture: ComponentFixture<AnswerMultiFourComponent>;
+describe('AnswerMultiComponent', () => {
+  let component: AnswerMultiComponent;
+  let fixture: ComponentFixture<AnswerMultiComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AnswerMultiFourComponent ]
+      declarations: [ AnswerMultiComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AnswerMultiFourComponent);
+    fixture = TestBed.createComponent(AnswerMultiComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

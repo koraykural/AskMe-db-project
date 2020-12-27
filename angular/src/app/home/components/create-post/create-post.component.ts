@@ -20,7 +20,9 @@ import { QuestionFormUtils } from '../../utils/question-form-utils';
         }),
         animate('400ms ease-in-out'),
       ]),
-      transition(':leave', [animate('400ms ease-in-out', style({ height: 0, opacity: 0, margin: 0 }))]),
+      transition(':leave', [
+        animate('400ms ease-in-out', style({ height: 0, opacity: 0, margin: 0 })),
+      ]),
     ]),
   ],
 })

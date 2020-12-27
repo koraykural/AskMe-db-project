@@ -19,9 +19,11 @@ export interface QuestionData {
   answer2: string;
   answer3: string;
   answer4: string;
+  correctAnswer: number;
   upvoteCount: number;
   downvoteCount: number;
   userVote: boolean | null;
+  userAnswer: string | null;
   createdAt: Date;
 }
 
@@ -48,4 +50,9 @@ export interface ContactForm {
   _replyto: string;
   _subject: string;
   message: string;
+}
+
+export interface Answer {
+  answer: string;
+  username: string;
 }

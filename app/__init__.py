@@ -41,11 +41,13 @@ def register_blueprints(app):
     from app.routes.question_route import question_blueprint
     from app.routes.user_route import user_blueprint
     from app.routes.vote_route import vote_blueprint
+    from app.routes.answer_route import answer_blueprint
 
     app.register_blueprint(auth_blueprint, url_prefix='/api/auth')
     app.register_blueprint(question_blueprint, url_prefix='/api/question')
     app.register_blueprint(user_blueprint, url_prefix='/api/user')
     app.register_blueprint(vote_blueprint, url_prefix='/api/vote')
+    app.register_blueprint(answer_blueprint, url_prefix='/api/answer')
 
     return None
 

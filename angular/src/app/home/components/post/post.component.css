@@ -1,1 +1,18 @@
-
+.show-answers {
+  font-size: 0.875rem;
+  color: #718096;
+  border-left-width: 1px;
+  border-color: #e2e8f0;
+  margin-left: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.show-answers.disabled {
+  cursor: default;
+}
+.show-answers.disabled:hover {
+  color: #5c6777;
+}
+.show-answers:hover {
+  color: #313842;
+}

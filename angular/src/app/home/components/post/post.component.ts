@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { QuestionData } from 'src/app/interfaces';
+import { QuestionData, Answer } from 'src/app/interfaces';
 import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
 import { Observable } from 'rxjs';
@@ -12,6 +12,10 @@ import { Observable } from 'rxjs';
 export class PostComponent implements OnInit {
   @Input() data: QuestionData;
   previousVote: boolean;
+
+  hoverShowAnswers = false;
+  showAnswers = false;
+  answers: Answer[] = [];
 
   constructor(private apiService: ApiService, private userService: UserService) {}
 
@@ -74,5 +78,22 @@ export class PostComponent implements OnInit {
     this.data.userVote = this.data.userVote === false ? null : false;
     this.voteChanged();
     this.sendVoteRequest();
+  }
+
+  toggleShowAnswers() {
+    this.showAnswers = !this.showAnswers;
+
+    if (this.showAnswers) {
+      this.apiService.getAnswers(this.data.id).subscribe(
+        (answers) => {
+          console.log(answers);
+          this.answers = answers;
+        },
+        (error) => {
+          console.log(error);
+          this.toggleShowAnswers();
+        },
+      );
+    }
   }
 }
