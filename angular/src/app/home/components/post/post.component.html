@@ -62,11 +62,7 @@
       <div class="italic text-gray-600">Anonymous</div>
     </ng-container>
     <div class="flex-grow">
-      <button
-        *ngIf="data.answerType === 'text' && data.userAnswer"
-        class="show-answers"
-        (click)="toggleShowAnswers()"
-      >
+      <button *ngIf="data.answerType === 'text'" class="show-answers" (click)="toggleShowAnswers()">
         <span *ngIf="!showAnswers">Show answers</span>
         <span *ngIf="showAnswers">Hide answers</span>
       </button>
