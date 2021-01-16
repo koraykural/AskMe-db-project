@@ -30,7 +30,8 @@
         <div
           class="rounded-full border transition-colors duration-300 border-gray-400 p-2 h-12 w-12 flex justify-center items-center"
           [ngClass]="{
-            'bg-indigo-500 hover:bg-indigo-600 border-indigo-500 text-white': selectedAnswerType === answerType.value,
+            'bg-indigo-500 hover:bg-indigo-600 border-indigo-500 text-white':
+              selectedAnswerType === answerType.value,
             'bg-white hover:bg-indigo-100': selectedAnswerType !== answerType.value
           }"
         >
@@ -58,7 +59,10 @@
             class="block resize-y border border-gray-400 rounded-sm w-full transition-shadow duration-300 focus:shadow pl-4 pr-12 py-2"
             rows="1"
           />
-          <label class="absolute h-full top-0 flex flex-col justify-center cursor-pointer" style="right: 0.5rem">
+          <label
+            class="absolute h-full top-0 flex flex-col justify-center cursor-pointer"
+            style="right: 0.5rem"
+          >
             <input type="radio" class="hidden" formControlName="correctAnswer" [value]="1" />
             <fa-icon
               class="text-3xl leading-none transition-colors duration-300"
@@ -78,7 +82,10 @@
             class="block resize-y border border-gray-400 rounded-sm w-full transition-shadow duration-300 focus:shadow pl-4 pr-12 py-2"
             rows="1"
           />
-          <label class="absolute h-full top-0 flex flex-col justify-center cursor-pointer" style="right: 0.5rem">
+          <label
+            class="absolute h-full top-0 flex flex-col justify-center cursor-pointer"
+            style="right: 0.5rem"
+          >
             <input type="radio" class="hidden" formControlName="correctAnswer" [value]="2" />
             <fa-icon
               class="text-3xl leading-none transition-colors duration-300"
@@ -99,7 +106,10 @@
               class="block resize-y border border-gray-400 rounded-sm w-full transition-shadow duration-300 focus:shadow pl-4 pr-12 py-2"
               rows="1"
             />
-            <label class="absolute h-full top-0 flex flex-col justify-center cursor-pointer" style="right: 0.5rem">
+            <label
+              class="absolute h-full top-0 flex flex-col justify-center cursor-pointer"
+              style="right: 0.5rem"
+            >
               <input type="radio" class="hidden" formControlName="correctAnswer" [value]="3" />
               <fa-icon
                 class="text-3xl leading-none transition-colors duration-300"
@@ -119,7 +129,10 @@
               class="block resize-y border border-gray-400 rounded-sm w-full transition-shadow duration-300 focus:shadow pl-4 pr-12 py-2"
               rows="1"
             />
-            <label class="absolute h-full top-0 flex flex-col justify-center cursor-pointer" style="right: 0.5rem">
+            <label
+              class="absolute h-full top-0 flex flex-col justify-center cursor-pointer"
+              style="right: 0.5rem"
+            >
               <input type="radio" class="hidden" formControlName="correctAnswer" [value]="4" />
               <fa-icon
                 class="text-3xl leading-none transition-colors duration-300"
@@ -158,7 +171,7 @@
       >
         <span *ngIf="buttonState === 'pending'">Publish and Pay {{ cost }} AskPoints</span>
         <span *ngIf="buttonState === 'clicked'">
-          Please wait
+          <span class=""> Please wait </span>
           <fa-icon class="ml-2" [icon]="'spinner'" [spin]="true"></fa-icon>
         </span>
       </button>

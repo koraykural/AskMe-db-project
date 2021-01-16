@@ -3,17 +3,69 @@ import { QuestionData, Answer } from 'src/app/interfaces';
 import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
 import { Observable } from 'rxjs';
+import { transition, style, animate, trigger, query, stagger } from '@angular/animations';
 
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.css'],
+  animations: [
+    trigger('removeAnswer', [
+      transition('* <=> *', [
+        query(
+          ':enter',
+          [
+            style({
+              overflow: 'hidden',
+              height: 0,
+              paddingTop: 0,
+              paddingBottom: 0,
+              marginTop: 0,
+              marginBottom: 0,
+            }),
+            animate(
+              '200ms ease-in-out',
+              style({
+                height: '*',
+                marginTop: '*',
+                marginBottom: '*',
+                paddingTop: '*',
+                paddingBottom: '*',
+              }),
+            ),
+          ],
+          {
+            optional: true,
+          },
+        ),
+        query(
+          ':leave',
+          [
+            style({ overflow: 'hidden' }),
+            animate(
+              '400ms ease-in-out',
+              style({
+                height: 0,
+                opacity: 0,
+                marginTop: 0,
+                marginBottom: 0,
+                paddingTop: 0,
+                paddingBottom: 0,
+              }),
+            ),
+          ],
+          {
+            optional: true,
+          },
+        ),
+      ]),
+    ]),
+  ],
 })
 export class PostComponent implements OnInit {
   @Input() data: QuestionData;
   previousVote: boolean;
 
-  hoverShowAnswers = false;
   showAnswers = false;
   answers: Answer[] = [];
 
@@ -80,6 +132,21 @@ export class PostComponent implements OnInit {
     this.sendVoteRequest();
   }
 
+  answerDeleted(userId: string) {
+    // Remove userId from this.answers
+    const index = this.answers.findIndex((x) => x.userId === userId);
+    if (index === -1) {
+      return;
+    }
+
+    this.apiService.deleteAnswer(this.answers[index].questionId).subscribe(
+      (res) => {
+        this.answers.splice(index, 1);
+      },
+      (err) => {},
+    );
+  }
+
   toggleShowAnswers() {
     this.showAnswers = !this.showAnswers;
 
@@ -94,6 +161,8 @@ export class PostComponent implements OnInit {
           this.toggleShowAnswers();
         },
       );
+    } else {
+      this.answers = [];
     }
   }
 }

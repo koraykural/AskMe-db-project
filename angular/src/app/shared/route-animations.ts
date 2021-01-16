@@ -43,9 +43,29 @@ const slideTo = (direction: string) => {
   ];
 };
 
+const toRight = [
+  '* => right',
+  'top-left => top-right',
+  'bottom-left => bottom-right',
+  'bottom-left => bottom-right2',
+  'bottom-right => bottom-right2',
+];
+
+const toLeft = [
+  'right => *',
+  'top-right => top-left',
+  'bottom-right => bottom-left',
+  'bottom-right2 => bottom-right',
+  'bottom-right2 => bottom-left',
+];
+
+const toTop = ['bottom-right => top-left', 'bottom-left => top-left', 'bottom-right2 => top-left'];
+
+const toBottom = ['top-left => bottom-left', 'top-right => bottom-left'];
+
 export const slideAnimation = trigger('routeAnimations', [
-  transition('top-left => top-right, bottom-left => bottom-right, * => right', slideTo('right')),
-  transition('top-right => top-left, bottom-right => bottom-left, right => *', slideTo('left')),
-  transition('top-left => bottom-left, top-right => bottom-left', slideTo('bottom')),
-  transition('bottom-right => top-left, bottom-left => top-left', slideTo('top')),
+  transition(toRight.join(', '), slideTo('right')),
+  transition(toLeft.join(', '), slideTo('left')),
+  transition(toBottom.join(', '), slideTo('bottom')),
+  transition(toTop.join(', '), slideTo('top')),
 ]);

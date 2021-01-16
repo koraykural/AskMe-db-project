@@ -1,0 +1,48 @@
+<ng-container *ngIf="data">
+  <div
+    class="flex flex-row items-center pt-1 px-2 border-separate border-t border-b border-gray-300"
+  >
+    <div *ngIf="isOwner" class="flex flex-col mr-2">
+      <button
+        *ngIf="!editActive"
+        (click)="activateEdit()"
+        class="text-indigo-600 hover:text-indigo-700"
+      >
+        <fa-icon class="leading-none text-lg" [icon]="'edit'"></fa-icon>
+      </button>
+      <button *ngIf="editActive" (click)="saveEdit()" class="text-indigo-600 hover:text-indigo-700">
+        <fa-icon class="leading-none text-lg" [icon]="'save'"></fa-icon>
+      </button>
+      <button (click)="deleteAnswer()" class="text-red-600 hover:text-red-700 mt-2">
+        <fa-icon class="leading-none text-lg" [icon]="'trash'"></fa-icon>
+      </button>
+    </div>
+    <div class="flex flex-col items-start w-full">
+      <span *ngIf="!editActive" class="block">{{ data.answer }}</span>
+      <input
+        class="w-full border border-gray-400 rounded-sm transition-shadow duration-300 focus:shadow px-2 py-1"
+        [value]="data.answer"
+        (input)="data.answer = $event.target.value"
+        *ngIf="editActive"
+      />
+      <div class="block text-sm text-gray-600">
+        <span>{{ data.username }}</span>
+        <span class="ml-2 text-xs italic" *ngIf="data.edited">Edited</span>
+      </div>
+    </div>
+    <div class="flex flex-col self-end">
+      <div class="flex flex-row justify-end w-16 p-1">
+        <span class="mr-2 text-sm">{{ data.likes | bigNumber }}</span>
+        <button (click)="like()" class="text-indigo-600 hover:text-indigo-700">
+          <fa-icon class="leading-none text-lg" [icon]="'thumbs-up'"></fa-icon>
+        </button>
+      </div>
+      <div class="flex flex-row justify-end mt-2 w-16 p-1">
+        <span class="mr-2 text-sm">{{ data.dislikes | bigNumber }}</span>
+        <button (click)="dislike()" class="text-indigo-600 hover:text-indigo-700">
+          <fa-icon class="leading-none text-lg" [icon]="'thumbs-down'"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-container>

@@ -10,6 +10,7 @@ import {
   ContactForm,
   Answer,
   ApiError,
+  Statistics,
 } from 'src/app/interfaces';
 import { AuthService } from 'src/app/auth/auth.service';
 
@@ -26,7 +27,14 @@ export class ApiService {
   }
 
   createQuestion(questionForm: QuestionForm): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(`${this.baseUrl}/question/create`, questionForm);
+    return this.http.post<ApiResponse>(`${this.baseUrl}/question/`, questionForm);
+  }
+
+  editQuestion(questionData: QuestionData): Observable<ApiResponse | ApiError> {
+    return this.http.put<ApiResponse | ApiError>(
+      `${this.baseUrl}/question/${questionData.id}`,
+      questionData,
+    );
   }
 
   getAllQuestions() {
@@ -38,6 +46,14 @@ export class ApiService {
     return this.http.get<{ questions: QuestionData[] }>(
       `${this.baseUrl}/question/pack?older_than=${olderThan}`,
     );
+  }
+
+  getQuestionOfUser() {
+    return this.http.get<{ questions: QuestionData[] }>(`${this.baseUrl}/question/ofuser`);
+  }
+
+  deleteQuestion(id: number) {
+    return this.http.delete<ApiResponse | ApiError>(`${this.baseUrl}/question/${id}`);
   }
 
   vote(questionId: number, userId: string, vote: 'up' | 'down') {
@@ -68,5 +84,51 @@ export class ApiService {
       question_id: questionId,
       answer,
     });
+  }
+
+  likeAnswer(questionId: number, userId: string) {
+    return this.http.post<ApiResponse | ApiError>(`${this.baseUrl}/answer/like`, {
+      question_id: questionId,
+      user_id: userId,
+    });
+  }
+
+  dislikeAnswer(questionId: number, userId: string) {
+    return this.http.post<ApiResponse | ApiError>(`${this.baseUrl}/answer/dislike`, {
+      question_id: questionId,
+      user_id: userId,
+    });
+  }
+
+  deleteAnswer(questionId: number) {
+    return this.http.delete<ApiResponse | ApiError>(`${this.baseUrl}/answer/${questionId}`);
+  }
+
+  editAnswer(questionId: number, answer: string) {
+    return this.http.put<ApiResponse | ApiError>(`${this.baseUrl}/answer/${questionId}`, {
+      answer,
+    });
+  }
+
+  changeEmail(email: string) {
+    return this.http.put<ApiResponse | ApiError>(`${this.baseUrl}/user/email`, { email });
+  }
+
+  changeUsername(username: string) {
+    return this.http.put<ApiResponse | ApiError>(`${this.baseUrl}/user/username`, { username });
+  }
+
+  changePassword(password: string) {
+    return this.http.put<ApiResponse | ApiError>(`${this.baseUrl}/user/password`, {
+      new_password: password,
+    });
+  }
+
+  deleteAccount() {
+    return this.http.delete<ApiResponse | ApiError>(`${this.baseUrl}/user/`);
+  }
+
+  getStats() {
+    return this.http.get<Statistics>(`${this.baseUrl}/user/stats`);
   }
 }

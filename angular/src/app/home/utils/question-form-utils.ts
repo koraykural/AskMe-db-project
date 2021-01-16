@@ -17,7 +17,16 @@ export class QuestionFormUtils {
     const questionCost = environment.questionCost;
     const values: QuestionForm = f.value;
 
-    const { anonymous, questionText, answerType, answer1, answer2, answer3, answer4, correctAnswer } = values;
+    const {
+      anonymous,
+      questionText,
+      answerType,
+      answer1,
+      answer2,
+      answer3,
+      answer4,
+      correctAnswer,
+    } = values;
 
     const cost = anonymous ? anonymousQuestionCost : questionCost;
 

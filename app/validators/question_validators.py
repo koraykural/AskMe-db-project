@@ -8,14 +8,12 @@ min_askpoints = 1
 min_askpoints_anonymous = 3
 
 AnswerTypes = ["multi-choice-4", "multi-choice-2", "text"]
-QuestionTypes = ["text"]
 
 
 def create(request):
     body = request.get_json()
 
     anonymous = body.get('anonymous', None)
-    question_type = body.get('questionType', None)
     question_text = body.get('questionText', None)
     answer_type = body.get('answerType', None)
     answer1 = body.get('answer1', None)
@@ -27,12 +25,11 @@ def create(request):
     try:
         validate_answer(answer_type, answer1, answer2,
                         answer3, answer4, correct_answer)
-        validate_question(question_type, question_text)
     except ValidationError:
         raise
 
-    if anonymous is None:
-        raise ValidationError("'anonymous' is required.")
+    if anonymous is None or question_text is None:
+        raise ValidationError("'anonymous' and 'question_text' is required.")
 
     user = g.get('user')
     if not is_askpoints_enough(user.askpoints, anonymous):
@@ -62,16 +59,6 @@ def validate_answer(answer_type, answer1, answer2,
     return None
 
 
-def validate_question(question_type, question_text):
-    if question_type not in QuestionTypes:
-        raise ValidationError("Invalid question type.")
-
-    if question_type is None:
-        raise ValidationError("'questionType' is required.")
-    if question_text is None:
-        raise ValidationError("'questionText' is required.")
-
-
 def is_askpoints_enough(askpoints, anonymous):
     if anonymous and askpoints < min_askpoints_anonymous:
         return False
@@ -79,3 +66,26 @@ def is_askpoints_enough(askpoints, anonymous):
         return False
 
     return True
+
+
+def edit(request):
+    body = request.get_json()
+
+    question_text = body.get('questionText', None)
+    answer_type = body.get('answerType', None)
+    answer1 = body.get('answer1', None)
+    answer2 = body.get('answer2', None)
+    answer3 = body.get('answer3', None)
+    answer4 = body.get('answer4', None)
+    correct_answer = body.get('correctAnswer', None)
+
+    try:
+        validate_answer(answer_type, answer1, answer2,
+                        answer3, answer4, correct_answer)
+    except ValidationError:
+        raise
+
+    if question_text is None:
+        raise ValidationError("question_text' is required.")
+
+    return None

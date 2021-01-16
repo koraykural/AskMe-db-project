@@ -38,6 +38,10 @@ export class HeaderComponent implements OnInit {
       url: '/create',
     },
     {
+      label: 'Profile',
+      url: '/profile',
+    },
+    {
       label: 'About',
       url: '/about',
     },

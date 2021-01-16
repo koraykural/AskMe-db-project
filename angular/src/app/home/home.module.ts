@@ -22,9 +22,19 @@ import {
   faPaperPlane,
   faSpinner,
   faArrowDown,
+  faExclamationCircle,
+  faThumbsUp,
+  faThumbsDown,
+  faTrash,
+  faSave,
 } from '@fortawesome/free-solid-svg-icons';
 import { CustomTimeagoFormatter } from './utils/custom-timeago-formatter';
 import { AnswerMultiComponent } from './components/post/answer/answer-multi/answer-multi.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { ProfilePostComponent } from './components/profile/profile-post/profile-post.component';
+import { CommentComponent } from './components/post/comment/comment.component';
+import { BigNumberPipe } from './utils/big-number.pipe';
+import { CountUpModule } from 'ngx-countup';
 
 @NgModule({
   declarations: [
@@ -35,6 +45,10 @@ import { AnswerMultiComponent } from './components/post/answer/answer-multi/answ
     PostPlaceholderComponent,
     AnswerComponent,
     AnswerMultiComponent,
+    ProfileComponent,
+    ProfilePostComponent,
+    CommentComponent,
+    BigNumberPipe,
   ],
   imports: [
     CommonModule,
@@ -45,6 +59,7 @@ import { AnswerMultiComponent } from './components/post/answer/answer-multi/answ
       formatter: { provide: TimeagoFormatter, useClass: CustomTimeagoFormatter },
       clock: { provide: TimeagoClock, useClass: TimeagoDefaultClock },
     }),
+    CountUpModule,
   ],
 })
 export class HomeModule {
@@ -58,8 +73,12 @@ export class HomeModule {
     faPaperPlane,
     faSpinner,
     faArrowDown,
+    faExclamationCircle,
+    faThumbsUp,
+    faThumbsDown,
+    faTrash,
+    faSave,
   ];
-
   constructor(library: FaIconLibrary) {
     library.addIcons(...this.icons);
   }

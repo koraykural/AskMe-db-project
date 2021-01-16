@@ -113,6 +113,31 @@ def serializer(id, owner_id, anonymous, question_text,
                     user_vote=user_vote, user_answer=user_answer)
 
 
+def row2dict(row):
+    answer_type = row[4]
+    dic = {
+        'id': row[0],
+        'anonymous': row[2],
+        'questionText': row[3],
+        'answerType': row[4],
+        'upvoteCount': row[12],
+        'downvoteCount': row[13],
+        'createdAt': row[10],
+        'userVote': row[11],
+    }
+
+    if answer_type != "text":
+        dic['answer1'] = row[5]
+        dic['answer2'] = row[6]
+        dic['correctAnswer'] = row[9]
+
+    if answer_type == "multi-choice-4":
+        dic['answer3'] = row[7]
+        dic['answer4'] = row[8]
+
+    return dic
+
+
 def get_question(id):
     with con.cursor() as cur:
         statement = "SELECT * FROM questions WHERE id = %s"
@@ -154,3 +179,46 @@ def get_question_pack(older_than, user_id):
             questions.append(serializer(*row))
         cur.close()
         return [e.serialize() for e in questions]
+
+
+def get_users_questions(user_id):
+    with con.cursor() as cur:
+        statement = """
+            SELECT q.*, v.vote as user_vote,
+            (SELECT COUNT(*) FROM votes as v WHERE
+            v.question_id = q.id AND v.vote = true) as upvote_count,
+            (SELECT COUNT(*) FROM votes as v WHERE v.question_id = q.id
+            AND v.vote = false) as downvote_count FROM questions as q
+            LEFT JOIN votes as v ON v.user_id = %s AND v.question_id = q.id
+            WHERE q.owner_id = %s
+            ORDER BY q.created_at DESC
+            """
+        cur.execute(statement, (user_id, user_id))
+        rows = cur.fetchall()
+        questions = []
+        for row in rows:
+            questions.append(row2dict(row))
+        cur.close()
+        return questions
+
+
+def delete_question(question_id, user_id):
+    with con.cursor() as cur:
+        statement = "DELETE FROM questions WHERE id = %s AND owner_id = %s"
+        cur.execute(statement, (question_id, user_id))
+        cur.close()
+        con.commit()
+
+
+def edit_question(question_id, owner_id, question_text, answer1,
+                  answer2, answer3, answer4, correct_answer):
+    with con.cursor() as cur:
+        stt = """
+            UPDATE questions
+            SET question_text = %s, answer1 = %s, answer2 = %s, answer3 = %s,
+            answer4 = %s, correct_answer = %s WHERE id = %s AND owner_id = %s
+            """
+        cur.execute(stt, (question_text, answer1, answer2, answer3,
+                          answer4, correct_answer, question_id, owner_id))
+        cur.close()
+        con.commit()

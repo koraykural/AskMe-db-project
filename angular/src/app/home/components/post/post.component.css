@@ -16,3 +16,7 @@
 .show-answers:hover {
   color: #313842;
 }
+
+.answers-container {
+  max-height: 60vh;
+}

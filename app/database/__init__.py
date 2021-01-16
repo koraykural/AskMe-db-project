@@ -48,6 +48,10 @@ setup_statement = """
     "question_id" int NOT NULL REFERENCES "questions" ("id") ON DELETE CASCADE,
     "user_id" uuid NOT NULL REFERENCES "users" ("id") ON DELETE CASCADE,
     "answer" text NOT NULL,
+    "created_at" timestamp NOT NULL DEFAULT (now()),
+    "likes" int NOT NULL DEFAULT 0,
+    "dislikes" int NOT NULL DEFAULT 0,
+    "edited" boolean NOT NULL DEFAULT false,
     PRIMARY KEY ("question_id", "user_id")
     );
 
@@ -57,6 +61,8 @@ setup_statement = """
     "vote" boolean NOT NULL,
     PRIMARY KEY ("question_id", "user_id")
     );
+
+    CREATE INDEX vote_count_idx ON votes USING btree (vote, question_id);
 
     CREATE FUNCTION delete_vote_ap() RETURNS trigger AS
     $$

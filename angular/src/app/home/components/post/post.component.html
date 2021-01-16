@@ -71,16 +71,14 @@
   </div>
 
   <!-- ------ Other Answers ------ -->
-  <div
-    *ngIf="showAnswers"
-    class="overflow-y-auto border-b border-gray-300"
-    style="max-height: 60vh"
-  >
-    <ng-container *ngFor="let answer of answers">
-      <div class="flex flex-col justify-center my-1 py-1 px-2 border-t border-gray-300">
-        <span class="block">{{ answer.answer }}</span>
-        <span class="block text-sm text-gray-600">{{ answer.username }}</span>
-      </div>
-    </ng-container>
-  </div>
+  <ng-container>
+    <div class="overflow-y-auto answers-container mt-2">
+      <app-comment
+        [@removeAnswer]="answers.length"
+        *ngFor="let answer of answers"
+        [data]="answer"
+        (deleted)="answerDeleted($event)"
+      ></app-comment>
+    </div>
+  </ng-container>
 </div>

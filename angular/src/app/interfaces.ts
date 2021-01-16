@@ -55,4 +55,20 @@ export interface ContactForm {
 export interface Answer {
   answer: string;
   username: string;
+  questionId: number;
+  userId: string;
+  likes: number;
+  dislikes: number;
+  edited: boolean;
+  createdAt: Date;
+}
+
+export interface Statistics {
+  questionCount: number;
+  totalUpvote: number;
+  maxUpvote: number;
+  totalDownvote: number;
+  maxDownvote: number;
+  totalAnswers: number;
+  maxAnswers: number;
 }

@@ -1,0 +1,172 @@
+<ng-container *ngIf="data">
+  <div class="w-full mx-auto max-w-xl sm:shadow bg-white sm:rounded mb-4 p-4">
+    <!-- ----- Question and Voting -------->
+    <div class="flex flex-row items-center w-full">
+      <textarea
+        placeholder="What do you want to ask?"
+        class="block border border-gray-400 rounded-sm w-full transition-shadow duration-300 focus:shadow px-4 py-2"
+        rows="3"
+        [value]="data.questionText"
+        (input)="data.questionText = $event.target.value"
+      ></textarea>
+      <div class="flex flex-col px-2 unselectable">
+        <div class="flex flex-col items-center">
+          <div
+            class="h-6 leading-none text-2xl transition-colors duration-200"
+            [ngClass]="data.userVote === true ? 'text-green-600' : 'text-green-300'"
+          >
+            <fa-icon [icon]="'arrow-circle-up'"></fa-icon>
+          </div>
+          <span class="text-green-600 font-medium leading-4 cursor-default mt-1">
+            {{ data.upvoteCount }}
+          </span>
+        </div>
+        <div class="mt-3 flex flex-col items-center">
+          <span class="mb-1 text-red-600 font-medium leading-4 cursor-default">
+            {{ data.downvoteCount }}
+          </span>
+          <div
+            class="h-6 leading-none text-2xl transition-colors duration-200"
+            [ngClass]="data.userVote === false ? 'text-red-600' : 'text-red-300'"
+          >
+            <fa-icon [icon]="'arrow-circle-down'"></fa-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ----- Answer ----- -->
+    <ng-container *ngIf="data.answerType === 'text'">
+      <textarea
+        placeholder="This is a text answered question."
+        class="block cursor-not-allowed border border-gray-400 rounded w-full pl-4 pr-12 mt-4 py-2 resize-none"
+        rows="3"
+        disabled
+        autosize
+      ></textarea>
+    </ng-container>
+    <ng-container *ngIf="data.answerType !== 'text'">
+      <div class="relative mb-2 mt-4">
+        <input
+          type="text"
+          placeholder="Choice 1"
+          class="block border border-gray-400 rounded-sm w-full transition-shadow duration-300 focus:shadow pl-4 pr-12 py-2"
+          [value]="data.answer1"
+          (input)="data.answer1 = $event.target.value"
+        />
+        <label
+          class="absolute h-full top-0 flex flex-col justify-center cursor-pointer"
+          style="right: 0.5rem"
+        >
+          <input type="radio" class="hidden" (click)="data.correctAnswer = 1" />
+          <fa-icon
+            class="text-3xl leading-none transition-colors duration-300"
+            [ngClass]="{
+              'text-indigo-500 hover:text-indigo-600': data.correctAnswer === 1,
+              'text-gray-300 hover:text-gray-400': data.correctAnswer !== 1
+            }"
+            [icon]="'check-circle'"
+          ></fa-icon>
+        </label>
+      </div>
+      <div class="relative mb-2">
+        <input
+          type="text"
+          placeholder="Choice 2"
+          class="block border border-gray-400 rounded-sm w-full transition-shadow duration-300 focus:shadow pl-4 pr-12 py-2"
+          [value]="data.answer2"
+          (input)="data.answer2 = $event.target.value"
+        />
+        <label
+          class="absolute h-full top-0 flex flex-col justify-center cursor-pointer"
+          style="right: 0.5rem"
+        >
+          <input type="radio" class="hidden" (click)="data.correctAnswer = 2" />
+          <fa-icon
+            class="text-3xl leading-none transition-colors duration-300"
+            [ngClass]="{
+              'text-indigo-500 hover:text-indigo-600': data.correctAnswer === 2,
+              'text-gray-300 hover:text-gray-400': data.correctAnswer !== 2
+            }"
+            [icon]="'check-circle'"
+          ></fa-icon>
+        </label>
+      </div>
+      <ng-container *ngIf="data.answerType === 'multi-choice-4'">
+        <div class="relative mb-2">
+          <input
+            type="text"
+            placeholder="Choice 3"
+            class="block border border-gray-400 rounded-sm w-full transition-shadow duration-300 focus:shadow pl-4 pr-12 py-2"
+            [value]="data.answer3"
+            (input)="data.answer3 = $event.target.value"
+          />
+          <label
+            class="absolute h-full top-0 flex flex-col justify-center cursor-pointer"
+            style="right: 0.5rem"
+          >
+            <input type="radio" class="hidden" (click)="data.correctAnswer = 3" />
+            <fa-icon
+              class="text-3xl leading-none transition-colors duration-300"
+              [ngClass]="{
+                'text-indigo-500 hover:text-indigo-600': data.correctAnswer === 3,
+                'text-gray-300 hover:text-gray-400': data.correctAnswer !== 3
+              }"
+              [icon]="'check-circle'"
+            ></fa-icon>
+          </label>
+        </div>
+        <div class="relative mb-2">
+          <input
+            type="text"
+            placeholder="Choice 4"
+            class="block border border-gray-400 rounded-sm w-full transition-shadow duration-300 focus:shadow pl-4 pr-12 py-2"
+            [value]="data.answer4"
+            (input)="data.answer4 = $event.target.value"
+          />
+          <label
+            class="absolute h-full top-0 flex flex-col justify-center cursor-pointer"
+            style="right: 0.5rem"
+          >
+            <input type="radio" class="hidden" (click)="data.correctAnswer = 4" />
+            <fa-icon
+              class="text-3xl leading-none transition-colors duration-300"
+              [ngClass]="{
+                'text-indigo-500 hover:text-indigo-600': data.correctAnswer === 4,
+                'text-gray-300 hover:text-gray-400': data.correctAnswer !== 4
+              }"
+              [icon]="'check-circle'"
+            ></fa-icon>
+          </label>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <!-- ----- Bottom Bar ----- -->
+    <div class="flex flex-row justify-center items-center mt-4 cursor-default">
+      <button
+        (click)="editQuestion()"
+        class="text-sm mr-2 px-2 py-1 bg-green-600 text-white rounded-sm hover:bg-green-700 transition-colors duration-300"
+      >
+        <span *ngIf="editState === 'ready'">Save Changes</span>
+        <span class="px-8" *ngIf="editState === 'pending'">
+          <fa-icon [icon]="'spinner'" [spin]="true"></fa-icon>
+        </span>
+        <span class="px-8" *ngIf="editState === 'error'">
+          <fa-icon [icon]="'exclamation-circle'"></fa-icon>
+        </span>
+      </button>
+      <button
+        (click)="deleteQuestion()"
+        class="text-sm mr-2 px-2 py-1 bg-red-600 text-white rounded-sm hover:bg-red-700 transition-colors duration-300"
+      >
+        <span *ngIf="deleteState === 'ready'">Delete</span>
+        <span *ngIf="deleteState === 'pending'">
+          <fa-icon class="mx-3" [icon]="'spinner'" [spin]="true"></fa-icon>
+        </span>
+      </button>
+      <div class="flex-grow"></div>
+      <div class="text-sm text-gray-600 font-normal">{{ data.createdAt | timeago }}</div>
+    </div>
+  </div>
+</ng-container>

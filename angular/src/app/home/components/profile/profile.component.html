@@ -1,0 +1,164 @@
+<div class="sm:container">
+  <div class="max-w-xl w-full mx-auto">
+    <div class="w-full sm:shadow bg-white sm:rounded my-4 p-4">
+      <h1 class="text-center text-2xl font-semibold mb-4">Update Profile</h1>
+      <div class="mb-6">
+        <label for="newEmail" class="block"> Email: </label>
+        <div class="flex flex-row flex-no-wrap">
+          <input
+            id="newEmail"
+            class="border border-gray-400 rounded-l-sm w-full transition-shadow duration-300 focus:shadow px-4 py-2"
+            type="email"
+            [value]="newEmail"
+            (input)="newEmail = $event.target.value"
+          />
+          <button
+            class="block py-2 px-6 bg-green-500 hover:bg-green-600 text-white rounded-r-sm transition-colors duration-300"
+            (click)="saveEmail()"
+          >
+            <ng-container *ngIf="emailBtn === 'ready'"> Save </ng-container>
+            <ng-container *ngIf="emailBtn === 'error'">
+              <fa-icon [icon]="'exclamation-circle'"></fa-icon>
+            </ng-container>
+            <ng-container *ngIf="emailBtn === 'waiting'">
+              <fa-icon [icon]="'spinner'" [spin]="true"></fa-icon>
+            </ng-container>
+          </button>
+        </div>
+        <p class="text-sm pl-4 text-red-600 italic" *ngIf="emailErrMsg">{{ emailErrMsg }}</p>
+      </div>
+      <div class="mb-6">
+        <label for="newUsername" class="block"> Username: </label>
+        <div class="flex flex-row flex-no-wrap">
+          <input
+            id="newUsername"
+            class="border border-gray-400 rounded-l-sm w-full transition-shadow duration-300 focus:shadow px-4 py-2"
+            type="text"
+            [value]="newUsername"
+            (input)="newUsername = $event.target.value"
+          />
+          <button
+            class="block py-2 px-6 bg-green-500 hover:bg-green-600 text-white rounded-r-sm transition-colors duration-300"
+            (click)="saveUsername()"
+          >
+            <ng-container *ngIf="usernameBtn === 'ready'"> Save </ng-container>
+            <ng-container *ngIf="usernameBtn === 'error'">
+              <fa-icon [icon]="'exclamation-circle'"></fa-icon>
+            </ng-container>
+            <ng-container *ngIf="usernameBtn === 'waiting'">
+              <fa-icon [icon]="'spinner'" [spin]="true"></fa-icon>
+            </ng-container>
+          </button>
+        </div>
+        <p class="text-sm pl-4 text-red-600 italic" *ngIf="usernameErrMsg">{{ usernameErrMsg }}</p>
+      </div>
+      <div class="mb-6">
+        <label for="newPassword" class="block"> New Password: </label>
+        <div class="flex flex-row flex-no-wrap">
+          <input
+            id="newPassword"
+            class="border border-gray-400 rounded-l-sm w-full transition-shadow duration-300 focus:shadow px-4 py-2"
+            type="password"
+            [value]="newPassword"
+            (input)="newPassword = $event.target.value"
+          />
+          <button
+            (click)="savePassword()"
+            class="block py-2 px-6 bg-green-500 hover:bg-green-600 text-white rounded-r-sm transition-colors duration-300"
+          >
+            <ng-container *ngIf="passwordBtn === 'ready'"> Save </ng-container>
+            <ng-container *ngIf="passwordBtn === 'error'">
+              <fa-icon [icon]="'exclamation-circle'"></fa-icon>
+            </ng-container>
+            <ng-container *ngIf="passwordBtn === 'waiting'">
+              <fa-icon [icon]="'spinner'" [spin]="true"></fa-icon>
+            </ng-container>
+          </button>
+        </div>
+        <p class="text-sm pl-4 text-red-600 italic" *ngIf="passwordErrMsg">{{ passwordErrMsg }}</p>
+      </div>
+      <button
+        (click)="deleteAccount()"
+        class="block py-2 font-semibold w-full bg-red-600 hover:bg-red-700 text-white rounded-r-sm transition-colors duration-300"
+      >
+        <ng-container *ngIf="deleteBtn === 'ready'"> Delete My Account </ng-container>
+        <ng-container *ngIf="deleteBtn === 'error'">
+          <fa-icon [icon]="'exclamation-circle'"></fa-icon>
+        </ng-container>
+        <ng-container *ngIf="deleteBtn === 'waiting'">
+          <fa-icon [icon]="'spinner'" [spin]="true"></fa-icon>
+        </ng-container>
+      </button>
+      <p class="text-sm pl-4 text-red-600 italic" *ngIf="deleteErrMsg">{{ deleteErrMsg }}</p>
+    </div>
+  </div>
+
+  <div class="max-w-xl w-full mx-auto unselectable">
+    <div class="w-full sm:shadow bg-white sm:rounded my-4 py-4">
+      <h1 class="text-center text-2xl font-semibold mb-4">Your Statistics</h1>
+      <div class="mx-auto w-1/2 px-4 text-center">
+        <span [countUp]="stats.questionCount" class="block text-6xl font-bold leading-tight"
+          >0</span
+        >
+        <span class="block text-sm text-gray-500">Number of questions you asked</span>
+      </div>
+      <div class="flex flex-row mt-8">
+        <div class="mx-auto w-1/3 px-4 text-center text-green-600">
+          <span [countUp]="stats.totalUpvote" class="block text-5xl font-bold leading-tight"
+            >0</span
+          >
+          <span class="block text-sm text-green-500">Total number of upvotes you got</span>
+        </div>
+        <div class="mx-auto w-1/3 px-4 text-center text-indigo-600">
+          <span [countUp]="stats.totalAnswers" class="block text-5xl font-bold leading-tight"
+            >0</span
+          >
+          <span class="block text-sm text-indigo-500">Total number of answers you got</span>
+        </div>
+        <div class="mx-auto w-1/3 px-4 text-center text-red-600">
+          <span [countUp]="stats.totalDownvote" class="block text-5xl font-bold leading-tight"
+            >0</span
+          >
+          <span class="block text-sm text-red-500">Total number of downvotes you got</span>
+        </div>
+      </div>
+      <div class="flex flex-row mt-8">
+        <div class="mx-auto w-1/3 px-4 text-center text-green-600">
+          <span [countUp]="stats.maxUpvote" class="block text-5xl font-bold leading-tight">0</span>
+          <span class="block text-sm text-green-500"
+            >Maximum number of upvotes you got for a question</span
+          >
+        </div>
+
+        <div class="mx-auto w-1/3 px-4 text-center text-indigo-600">
+          <span [countUp]="stats.maxAnswers" class="block text-5xl font-bold leading-tight">0</span>
+          <span class="block text-sm text-indigo-500"
+            >Maximum number of answers you got for a question</span
+          >
+        </div>
+        <div class="mx-auto w-1/3 px-4 text-center text-red-600">
+          <span [countUp]="stats.maxDownvote" class="block text-5xl font-bold leading-tight"
+            >0</span
+          >
+          <span class="block text-sm text-red-500"
+            >Maximum number of downvotes you got for a question</span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <h1 class="text-center mt-8 mb-4 text-2xl font-bold">Your Questions</h1> -->
+  <div class="w-3/4 mx-auto h-px bg-gray-400 my-12"></div>
+  <div class="mb-8" *ngIf="questions.length > 0">
+    <app-profile-post
+      [@questionsAnimation]="questions.length"
+      *ngFor="let question of questions"
+      [data]="question"
+      (delete)="questionDeleted($event)"
+    ></app-profile-post>
+  </div>
+  <ng-container *ngIf="questions.length === 0">
+    <span class="text-center block w-full"> No question found </span>
+  </ng-container>
+</div>
