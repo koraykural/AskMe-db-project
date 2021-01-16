@@ -24,7 +24,7 @@ import { transition, style, animate, trigger, query, stagger } from '@angular/an
               marginBottom: 0,
             }),
             animate(
-              '200ms ease-in-out',
+              '400ms ease-in-out',
               style({
                 height: '*',
                 marginTop: '*',
