@@ -62,7 +62,7 @@
       <div class="italic text-gray-600">Anonymous</div>
     </ng-container>
     <div class="flex-grow">
-      <button *ngIf="data.answerType === 'text'" class="show-answers" (click)="toggleShowAnswers()">
+      <button class="show-answers" (click)="toggleShowAnswers()">
         <span *ngIf="!showAnswers">Show answers</span>
         <span *ngIf="showAnswers">Hide answers</span>
       </button>
@@ -70,15 +70,27 @@
     <div class="text-sm text-gray-600 self-end font-normal">{{ data.createdAt | timeago }}</div>
   </div>
 
-  <!-- ------ Other Answers ------ -->
-  <ng-container>
-    <div class="overflow-y-auto answers-container mt-2">
-      <app-comment
-        [@removeAnswer]="answers.length"
-        *ngFor="let answer of answers"
-        [data]="answer"
-        (deleted)="answerDeleted($event)"
-      ></app-comment>
-    </div>
-  </ng-container>
+  <!-- ------ Text Answers ------ -->
+  <div class="overflow-y-auto answers-container">
+    <app-comment
+      [@removeAnswer]="answers.length"
+      *ngFor="let answer of answers"
+      [data]="answer"
+      (deleted)="answerDeleted($event)"
+    ></app-comment>
+  </div>
+
+  <!-- ------ Multi Answers ------ -->
+  <div *ngIf="showAnswers && multiAnswers.length > 0">
+    <table>
+      <tr>
+        <th class="px-2">Choice</th>
+        <th class="px-2">Number of answers</th>
+      </tr>
+      <tr class="mt-2" *ngFor="let answer of multiAnswers">
+        <td class="px-2">{{ answer.choice }}</td>
+        <td class="px-2">{{ answer.count }}</td>
+      </tr>
+    </table>
+  </div>
 </div>

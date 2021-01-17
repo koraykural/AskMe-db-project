@@ -2,6 +2,7 @@
 This file contains change_username, change_email, change_password
 form validator functions.
 """
+from flask import g
 from . import ValidationError
 # from flask import g
 # from app.exts import bcrypt
@@ -11,6 +12,10 @@ from . import ValidationError
 def email(request):
     body = request.get_json()
     email = body.get('email')
+
+    if g.user.username == 'Demo':
+        raise ValidationError('Demo account settings cannot be changed.')
+
     if email is None:
         raise ValidationError(
             "'email', 'username' and 'password' is required.")
@@ -20,6 +25,10 @@ def email(request):
 def username(request):
     body = request.get_json()
     username = body.get('username')
+
+    if g.user.username == 'Demo':
+        raise ValidationError('Demo account settings cannot be changed.')
+
     if username is None or len(username) > 20 or len(username) < 3:
         raise ValidationError(
             "Username should be at length of min 3 and max 20.")
@@ -31,6 +40,9 @@ def password(request):
     # user = g.user
     # old_password = body.get('old_password')
     new_password = body.get('new_password')
+
+    if g.user.username == 'Demo':
+        raise ValidationError('Demo account settings cannot be changed.')
 
     # if old_password is None or \
     #         not bcrypt.check_password_hash(user.password, old_password):

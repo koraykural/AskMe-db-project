@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { QuestionData, Answer } from 'src/app/interfaces';
+import { QuestionData, Answer, MultiAnswer } from 'src/app/interfaces';
 import { ApiService } from '../../services/api.service';
 import { UserService } from '../../services/user.service';
 import { Observable } from 'rxjs';
@@ -68,6 +68,7 @@ export class PostComponent implements OnInit {
 
   showAnswers = false;
   answers: Answer[] = [];
+  multiAnswers: MultiAnswer[] = [];
 
   constructor(private apiService: ApiService, private userService: UserService) {}
 
@@ -151,16 +152,29 @@ export class PostComponent implements OnInit {
     this.showAnswers = !this.showAnswers;
 
     if (this.showAnswers) {
-      this.apiService.getAnswers(this.data.id).subscribe(
-        (answers) => {
-          console.log(answers);
-          this.answers = answers;
-        },
-        (error) => {
-          console.log(error);
-          this.toggleShowAnswers();
-        },
-      );
+      if (this.data.answerType === 'text') {
+        this.apiService.getAnswers(this.data.id).subscribe(
+          (answers) => {
+            console.log(answers);
+            this.answers = answers;
+          },
+          (error) => {
+            console.log(error);
+            this.toggleShowAnswers();
+          },
+        );
+      } else {
+        this.apiService.getAnswersMulti(this.data.id).subscribe(
+          (answers) => {
+            console.log(answers);
+            this.multiAnswers = answers;
+          },
+          (error) => {
+            console.log(error);
+            this.toggleShowAnswers();
+          },
+        );
+      }
     } else {
       this.answers = [];
     }

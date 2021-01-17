@@ -72,3 +72,8 @@ export interface Statistics {
   totalAnswers: number;
   maxAnswers: number;
 }
+
+export interface MultiAnswer {
+  choice: '1' | '2' | '3' | '4';
+  count: number;
+}

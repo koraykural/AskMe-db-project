@@ -27,6 +27,25 @@ import { transition, style, animate, trigger, query, stagger } from '@angular/an
         ),
       ]),
     ]),
+    trigger('fadeIn', [
+      transition('* <=> *', [
+        query(
+          ':enter',
+          [
+            style({ opacity: 0 }),
+            animate(
+              '600ms ease-in-out',
+              style({
+                opacity: 1,
+              }),
+            ),
+          ],
+          {
+            optional: true,
+          },
+        ),
+      ]),
+    ]),
   ],
 })
 export class ProfileComponent implements OnInit {

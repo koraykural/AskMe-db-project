@@ -18,6 +18,13 @@ def row2dict(row):
     }
 
 
+def row2dict_multi(row):
+    return {
+        'choice': row[0],
+        'count': row[1]
+    }
+
+
 def answer_question(question_id, user_id, answer):
     with con.cursor() as cur:
         statement = """
@@ -45,6 +52,21 @@ def get_answers(question_id):
         answers = []
         for row in rows:
             answers.append(row2dict(row))
+        return answers
+
+
+def get_multi_answers(question_id):
+    with con.cursor() as cur:
+        statement = """
+            SELECT a.answer, COUNT(a.user_id) FROM answers as a
+            WHERE a.question_id = %s
+            GROUP BY a.answer
+            """
+        cur.execute(statement, (question_id,))
+        rows = cur.fetchall()
+        answers = []
+        for row in rows:
+            answers.append(row2dict_multi(row))
         return answers
 
 

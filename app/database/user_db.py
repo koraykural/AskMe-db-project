@@ -170,6 +170,16 @@ def get_statistics(user_id):
             """
         cur.execute(statement, (user_id,))
         row = cur.fetchone()
+        if row is None:
+            return {
+                'questionCount': 0,
+                'totalUpvote': 0,
+                'maxUpvote': 0,
+                'totalDownvote': 0,
+                'maxDownvote': 0,
+                'totalAnswers': 0,
+                'maxAnswers': 0,
+            }
         stats = {
             'questionCount': row[0],
             'totalUpvote': row[1],

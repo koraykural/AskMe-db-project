@@ -5,7 +5,7 @@ GET api/user/
 """
 import os
 from flask import Blueprint, jsonify, g, request
-from app.validators import user_validators, validate_request
+from app.validators import user_validators, validate_request, ValidationError
 from app.middlewares.auth_middleware import auth_required
 from app.database.user_db import change_username, \
     delete_account, change_email, change_password, get_statistics
@@ -109,6 +109,10 @@ def delete_user():
     Returns:
     status (str): Status of request
     """
+
+    if g.user.username == 'Demo':
+        raise ValidationError('Demo account settings cannot be changed.')
+
     user_id = g.user.id
     delete_account(user_id)
 

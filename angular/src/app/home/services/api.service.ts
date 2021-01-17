@@ -11,6 +11,7 @@ import {
   Answer,
   ApiError,
   Statistics,
+  MultiAnswer,
 } from 'src/app/interfaces';
 import { AuthService } from 'src/app/auth/auth.service';
 
@@ -77,6 +78,10 @@ export class ApiService {
 
   getAnswers(questionId: number) {
     return this.http.get<Answer[]>(`${this.baseUrl}/answer/?question_id=${questionId}`);
+  }
+
+  getAnswersMulti(questionId: number) {
+    return this.http.get<MultiAnswer[]>(`${this.baseUrl}/answer/multi/?question_id=${questionId}`);
   }
 
   postAnswer(questionId: number, answer: string) {

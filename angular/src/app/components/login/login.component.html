@@ -1,7 +1,7 @@
-<div class="h-full w-full flex justify-center items-center container">
+<div class="h-full w-full flex flex-col justify-center items-center container">
   <form
     [formGroup]="loginForm"
-    class="bg-white rounded shadow p-8 my-8 w-full max-w-md"
+    class="bg-white rounded-t shadow p-8 my-1 w-full max-w-md"
     (submit)="submit()"
   >
     <h2 class="text-center text-2xl font-semibold mb-4">Login to your account</h2>
@@ -54,4 +54,17 @@
       </div>
     </div>
   </form>
+  <div class="bg-white rounded-b shadow p-8 my-1 w-full max-w-md">
+    <h2 class="text-2xl font-semibold text-center mb-2">Demo Account Credentials</h2>
+    <table>
+      <tr>
+        <td class="font-bold pr-2">Email:</td>
+        <td>demo@account</td>
+      </tr>
+      <tr>
+        <td class="font-bold pr-2">Password:</td>
+        <td>demo1234</td>
+      </tr>
+    </table>
+  </div>
 </div>
