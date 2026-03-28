@@ -47,4 +47,4 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: deploy
           key: ${{ secrets.VPS_SSH_KEY }}
-          script: pm2 restart ask-me
+          script: pm2 restart ask-me || pm2 start "/var/www/ask-me.koraykural.com/venv/bin/gunicorn run:app -w 2 -b 0.0.0.0:33507" --name ask-me --cwd /var/www/ask-me.koraykural.com
