@@ -12,13 +12,13 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '16'
-          cache: 'npm'
+          node-version: "16"
+          cache: "npm"
           cache-dependency-path: angular/package-lock.json
 
       - name: Build Angular
         working-directory: angular
-        run: npm ci && npm run build
+        run: npm ci --legacy-peer-deps && npm run build
 
       - name: Update Python app on VPS
         uses: appleboy/ssh-action@v1
