@@ -64,6 +64,7 @@
     "ts-node": "~8.3.0",
     "tslint": "~5.18.0",
     "typescript": "~3.7.5",
-    "webpack-bundle-analyzer": "^4.2.0"
+    "webpack-bundle-analyzer": "^4.2.0",
+    "ng-tailwindcss": "^2.2.1"
   }
 }
