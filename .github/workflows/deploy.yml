@@ -30,7 +30,7 @@ jobs:
             git config --global --add safe.directory /var/www/ask-me.koraykural.com
             cd /var/www/ask-me.koraykural.com
             git pull
-            venv/bin/pip install -r requirements.txt
+            venv/bin/pip install --upgrade -r requirements.txt
 
       - name: Copy Angular build to VPS
         uses: appleboy/scp-action@v0.1.7
