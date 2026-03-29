@@ -20,6 +20,11 @@ export class AuthService {
   constructor(private router: Router, private http: HttpClient) {
     const fiveMins = 5 * 60 * 1000;
     setInterval(this.refreshToken.bind(this), fiveMins);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') {
+        this.refreshToken();
+      }
+    });
   }
 
   saveToken(token: string) {

@@ -33,6 +33,13 @@ def register_error_handlers(app):
         AuthorizationError, lambda e: api_error(e.message))
     app.register_error_handler(
         ValidationError, lambda e: api_error(e.message))
+
+    @app.teardown_request
+    def rollback_on_error(exception):
+        if exception:
+            from app.database import con
+            con.rollback()
+
     return None
 
 
