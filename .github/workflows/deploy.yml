@@ -1,12 +1,23 @@
 name: Deploy
 
+# A copy of koraykural-infra's release flow: a public repo can't call that
+# private repo's workflows. Builds the Angular app into app/public, uploads
+# the tree, and deploy-release on the server builds the release's .venv,
+# switches, restarts pm2 and checks /healthz, rolling back if it fails.
+# DEPLOY_KEY only runs `deploy-release ask-me`.
+
 on:
   push:
     branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
 
@@ -20,31 +31,27 @@ jobs:
         working-directory: angular
         run: npm ci --legacy-peer-deps && npm run build
 
-      - name: Update Python app on VPS
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: deploy
-          key: ${{ secrets.VPS_SSH_KEY }}
-          script: |
-            git config --global --add safe.directory /var/www/ask-me.koraykural.com
-            cd /var/www/ask-me.koraykural.com
-            git pull
-            venv/bin/pip install --upgrade -r requirements.txt
+      - name: Package
+        run: |
+          test -f app/public/index.html
+          tar --exclude=./.git --exclude=./.github --exclude=./angular \
+            -czf "$RUNNER_TEMP/release.tgz" .
+          ls -lh "$RUNNER_TEMP/release.tgz"
 
-      - name: Copy Angular build to VPS
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: deploy
-          key: ${{ secrets.VPS_SSH_KEY }}
-          source: app/public
-          target: /var/www/ask-me.koraykural.com
+      - name: Upload and switch
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
+        run: |
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$DEPLOY_KEY" > ~/.ssh/deploy_key
+          printf '%s\n' "$VPS_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/deploy_key ~/.ssh/known_hosts
+          ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes -o UserKnownHostsFile=~/.ssh/known_hosts \
+            "deploy@$VPS_HOST" "deploy $GITHUB_SHA" < "$RUNNER_TEMP/release.tgz"
 
-      - name: Restart app
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: deploy
-          key: ${{ secrets.VPS_SSH_KEY }}
-          script: pm2 restart ask-me || pm2 start "/var/www/ask-me.koraykural.com/venv/bin/gunicorn run:app -w 2 -b 127.0.0.1:33507" --name ask-me --cwd /var/www/ask-me.koraykural.com
+      - name: Remove key
+        if: always()
+        run: rm -f ~/.ssh/deploy_key

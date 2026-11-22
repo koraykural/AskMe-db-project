@@ -11,6 +11,7 @@ def create_app():
     register_extensions(app)
     register_error_handlers(app)
     register_blueprints(app)
+    register_healthz(app)
     register_static_content(app)
     minify_json_response(app)
 
@@ -55,6 +56,37 @@ def register_blueprints(app):
     app.register_blueprint(user_blueprint, url_prefix='/api/user')
     app.register_blueprint(vote_blueprint, url_prefix='/api/vote')
     app.register_blueprint(answer_blueprint, url_prefix='/api/answer')
+
+    return None
+
+
+def register_healthz(app):
+    """
+    deploy-release checks this after a deploy: 200 with the deployed commit
+    (from REVISION at the release root) once the database answers.
+    """
+    import os
+
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    try:
+        with open(os.path.join(root, 'REVISION')) as f:
+            revision = f.read().strip()
+    except OSError:
+        revision = 'dev'
+
+    headers = {'Content-Type': 'text/plain', 'Cache-Control': 'no-store'}
+
+    @app.route('/healthz')
+    def healthz():
+        from app.database import con
+        try:
+            with con.cursor() as cur:
+                cur.execute('SELECT 1')
+            con.rollback()
+        except Exception:
+            app.logger.exception('healthz: database check failed')
+            return 'database unavailable\n', 503, headers
+        return revision + '\n', 200, headers
 
     return None
 
